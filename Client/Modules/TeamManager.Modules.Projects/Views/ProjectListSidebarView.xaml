@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="TeamManager.Modules.Projects.Views.ProjectListSidebarView" 
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:tlk="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" 
+			 mc:Ignorable="d" 
+			 d:DesignHeight="300" d:DesignWidth="400">
+
+	<!--<tlk:Expander Header="{Binding HeaderTitle}" Margin="0,0,0,5" IsExpanded="True">
+		<ListBox ItemsSource="{Binding Projects}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+						<TextBlock FontSize="18" FontWeight="Bold" Text="{Binding Title}" />
+						<TextBlock Foreground="Gray" Margin="5,0,0,0" Text="{Binding Description}" TextWrapping="Wrap" />
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</tlk:Expander>-->
+	
+	<ComboBox ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject, Mode=TwoWay}" 
+			  DisplayMemberPath="Title">
+		
+		<!--<ComboBox.ItemTemplate>
+			<DataTemplate>
+				<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+					<TextBlock FontSize="12" FontWeight="Bold" Text="{Binding Title}" />
+					<TextBlock Foreground="Gray" Margin="5,0,0,0" Text="{Binding Description}" 
+							   FontSize="11" TextWrapping="Wrap" />
+				</StackPanel>
+			</DataTemplate>
+		</ComboBox.ItemTemplate> -->
+		<!--<ComboBox.ItemTemplate>
+			<DataTemplate>
+				<TextBlock Text="{Binding Title}" />
+			</DataTemplate>
+		</ComboBox.ItemTemplate>-->
+		<!--<ComboBox.ItemContainerStyle>
+			<Style TargetType="ComboBoxItem">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="ComboBoxItem">
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+								<TextBlock FontSize="12" FontWeight="Bold" Text="{Binding Title}" />
+								<TextBlock Foreground="Gray" Margin="5,0,0,0" Text="{Binding Description}" 
+							   FontSize="11" TextWrapping="Wrap" />
+							</StackPanel>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ComboBox.ItemContainerStyle>-->
+	</ComboBox>
+
+</UserControl>

@@ -134,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SecurityQuestions.resx</DependentUpon>
     </Compile>
+    <Compile Include="ModuleMapper.cs" />
     <Compile Include="Views\Projects.xaml.cs">
       <DependentUpon>Projects.xaml</DependentUpon>
     </Compile>
@@ -277,6 +278,12 @@
   <ItemGroup>
     <Resource Include="Images\backgroundshadow.png" />
     <Resource Include="Images\backgroundtexture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\TeamManager.Infrastructure\TeamManager.Infrastructure.csproj">
+      <Project>{BF08B308-99B3-4AD6-9E93-1FB76BF56AB5}</Project>
+      <Name>TeamManager.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

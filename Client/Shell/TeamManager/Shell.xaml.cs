@@ -1,4 +1,7 @@
-﻿namespace TeamManager
+﻿using System;
+using Microsoft.Practices.Prism.Modularity;
+
+namespace TeamManager
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -10,11 +13,14 @@
     /// </summary>
     public partial class Shell : UserControl
     {
+        private readonly IModuleManager _moduleManager;
+
         /// <summary>
         /// Creates a new <see cref="Shell"/> instance.
         /// </summary>
-        public Shell()
+        public Shell(IModuleManager moduleManager)
         {
+            _moduleManager = moduleManager;
             InitializeComponent();
         }
 
@@ -23,21 +29,24 @@
         /// </summary>
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            foreach (UIElement child in LinksStackPanel.Children)
+            LoadModule(e.Uri.ToString());
+            foreach (var child in LinksStackPanel.Children)
             {
-                HyperlinkButton hb = child as HyperlinkButton;
+                var hb = child as HyperlinkButton;
                 if (hb != null && hb.NavigateUri != null)
                 {
-                    if (hb.NavigateUri.ToString().Equals(e.Uri.ToString()))
-                    {
-                        VisualStateManager.GoToState(hb, "ActiveLink", true);
-                    }
-                    else
-                    {
-                        VisualStateManager.GoToState(hb, "InactiveLink", true);
-                    }
+                    VisualStateManager.GoToState(hb,
+                                                 hb.NavigateUri.ToString().Equals(e.Uri.ToString())
+                                                     ? "ActiveLink"
+                                                     : "InactiveLink", true);
                 }
             }
+        }
+
+        private void LoadModule(string uri)
+        {
+            if (!ModuleMapper.ModuleMap.ContainsKey(uri)) return;
+            ModuleMapper.ModuleMap[uri].ForEach(module => _moduleManager.LoadModule(module));
         }
 
         /// <summary>

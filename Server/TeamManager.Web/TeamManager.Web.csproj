@@ -13,7 +13,7 @@
     <AssemblyName>TeamManager.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
-    <SilverlightApplicationList>{C80AE308-9E4D-4A66-BD8D-C014CC082CEE}|..\..\..\Client\Shell\TeamManager\TeamManager.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{C80AE308-9E4D-4A66-BD8D-C014CC082CEE}|..\..\..\Client\Shell\TeamManager\TeamManager.csproj|ClientBin|False,{7196C563-045C-4097-8E3E-61D7E8AE1AA0}|..\..\Client\Modules\TeamManager.Modules.Projects\TeamManager.Modules.Projects.csproj|ClientBin|False</SilverlightApplicationList>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +64,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientBin\TeamManager.Modules.Projects.xap" />
     <Content Include="ClientBin\TeamManager.xap" />
     <Content Include="TeamManagerTestPage.aspx" />
     <Content Include="TeamManagerTestPage.html" />
@@ -136,7 +137,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52878</DevelopmentServerPort>
+          <DevelopmentServerPort>38164</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

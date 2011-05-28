@@ -46,21 +46,6 @@
         {
         }
 
-        /// <summary>
-        /// Initializes the <see cref="Application.RootVisual"/> property.
-        /// The initial UI will be displayed before the LoadUser operation has completed.
-        /// The LoadUser operation will cause user to be logged in automatically if using Windows authentication or if the user had selected the "Keep me signed in" option on a previous login.
-        /// </summary>
-        protected virtual void InitializeRootVisual()
-        {
-            TeamManager.Controls.BusyIndicator busyIndicator = new TeamManager.Controls.BusyIndicator();
-            busyIndicator.Content = new Shell();
-            busyIndicator.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            busyIndicator.VerticalContentAlignment = VerticalAlignment.Stretch;
-
-            this.RootVisual = busyIndicator;
-        }
-
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             // If the app is running outside of the debugger then report the exception using a ChildWindow control.

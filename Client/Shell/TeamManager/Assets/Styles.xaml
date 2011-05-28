@@ -1976,4 +1976,18 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <!-- Content text with center alignment -->
+    <Style x:Key="CenteredTextStyle" TargetType="TextBlock" BasedOn="{StaticResource ContentTextStyle}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Stack panel with buttons (row operations) -->
+    <Style x:Key="ButtonStackPanelStyle" TargetType="StackPanel">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,10" />
+    </Style>
 </ResourceDictionary>
