@@ -60,7 +60,21 @@
     <form id="form1" runat="server" style="height:100%">
     <div id="silverlightControlHost">
         <object data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="100%" height="100%">
-		  <param name="source" value="ClientBin/TeamManager.xap"/>
+		  <%
+                var strSourceFile = @"ClientBin/TeamManager.xap";
+                string param;
+                if (!System.Diagnostics.Debugger.IsAttached)
+                    param = "<param name=\"source\" value=\"" + strSourceFile + "\" />";
+                else
+                {
+                    var xappath = HttpContext.Current.Server.MapPath(@"") + @"\" + strSourceFile;
+                    var xapCreationDate = System.IO.File.GetLastWriteTime(xappath);
+                    param = "<param name=\"source\" value=\"" + strSourceFile + "?ignore="
+                            + xapCreationDate + "\" />";
+                }
+                Response.Write(param);
+            %>
+            <%--<param name="source" value="ClientBin/TeamManager.xap" />--%>
 		  <param name="onError" value="onSilverlightError" />
 		  <param name="background" value="white" />
 		  <param name="minRuntimeVersion" value="4.0.50826.0" />

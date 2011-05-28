@@ -1,0 +1,691 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TeamManagerDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="TeamManagerDBModelStoreContainer">
+          <EntitySet Name="aspnet_Users" EntityType="TeamManagerDBModel.Store.aspnet_Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Dictionaries" EntityType="TeamManagerDBModel.Store.Dictionaries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Issues" EntityType="TeamManagerDBModel.Store.Issues" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IssueStatuses" EntityType="TeamManagerDBModel.Store.IssueStatuses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Projects" EntityType="TeamManagerDBModel.Store.Projects" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TimeEntries" EntityType="TeamManagerDBModel.Store.TimeEntries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Trackers" EntityType="TeamManagerDBModel.Store.Trackers" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_IssueAssignement" Association="TeamManagerDBModel.Store.FK_IssueAssignement">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueCreator" Association="TeamManagerDBModel.Store.FK_IssueCreator">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Priorities" Association="TeamManagerDBModel.Store.FK_Issues_Priorities">
+            <End Role="Dictionaries" EntitySet="Dictionaries" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Project" Association="TeamManagerDBModel.Store.FK_Issues_Project">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Trackers" Association="TeamManagerDBModel.Store.FK_Issues_Trackers">
+            <End Role="Trackers" EntitySet="Trackers" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueStatus" Association="TeamManagerDBModel.Store.FK_IssueStatus">
+            <End Role="IssueStatuses" EntitySet="IssueStatuses" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Creator" Association="TeamManagerDBModel.Store.FK_Project_Creator">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Issues" Association="TeamManagerDBModel.Store.FK_TimeEntries_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntry_Activity" Association="TeamManagerDBModel.Store.FK_TimeEntry_Activity">
+            <End Role="Dictionaries" EntitySet="Dictionaries" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntry_User" Association="TeamManagerDBModel.Store.FK_TimeEntry_User">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="aspnet_Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LoweredUserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="MobileAlias" Type="nvarchar" MaxLength="16" />
+          <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+          <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dictionaries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsDefault" Type="tinyint" Nullable="false" />
+          <Property Name="Weight" Type="int" />
+        </EntityType>
+        <EntityType Name="Issues">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="PriorityId" Type="int" Nullable="false" />
+          <Property Name="AssignedTo" Type="uniqueidentifier" />
+          <Property Name="AuthorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="EstimatedHours" Type="float" />
+          <Property Name="DoneRatio" Type="int" Nullable="false" />
+          <Property Name="TrackerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueStatuses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsClosed" Type="tinyint" Nullable="false" />
+          <Property Name="IsDefault" Type="tinyint" Nullable="false" />
+          <Property Name="DefaultDoneRatio" Type="int" />
+          <Property Name="Weight" Type="int" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsPublic" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="TimeEntries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Hours" Type="float" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="250" />
+          <Property Name="SpentOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="ActivityId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Trackers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Weight" Type="int" />
+        </EntityType>
+        <Association Name="FK_IssueAssignement">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.Store.aspnet_Users" Multiplicity="0..1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Store.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueCreator">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.Store.aspnet_Users" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Store.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Priorities">
+          <End Role="Dictionaries" Type="TeamManagerDBModel.Store.Dictionaries" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Store.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dictionaries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="PriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Project">
+          <End Role="Projects" Type="TeamManagerDBModel.Store.Projects" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Store.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Trackers">
+          <End Role="Trackers" Type="TeamManagerDBModel.Store.Trackers" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Store.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trackers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="TrackerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueStatus">
+          <End Role="IssueStatuses" Type="TeamManagerDBModel.Store.IssueStatuses" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Store.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueStatuses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Creator">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.Store.aspnet_Users" Multiplicity="1" />
+          <End Role="Projects" Type="TeamManagerDBModel.Store.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Issues">
+          <End Role="Issues" Type="TeamManagerDBModel.Store.Issues" Multiplicity="1" />
+          <End Role="TimeEntries" Type="TeamManagerDBModel.Store.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntry_Activity">
+          <End Role="Dictionaries" Type="TeamManagerDBModel.Store.Dictionaries" Multiplicity="1" />
+          <End Role="TimeEntries" Type="TeamManagerDBModel.Store.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dictionaries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntry_User">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.Store.aspnet_Users" Multiplicity="1" />
+          <End Role="TimeEntries" Type="TeamManagerDBModel.Store.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TeamManagerDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="TeamManagerDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="aspnet_Users" EntityType="TeamManagerDBModel.User" />
+          <EntitySet Name="Dictionaries" EntityType="TeamManagerDBModel.Dictionary" />
+          <EntitySet Name="Issues" EntityType="TeamManagerDBModel.Issue" />
+          <EntitySet Name="IssueStatuses" EntityType="TeamManagerDBModel.IssueStatus" />
+          <EntitySet Name="Projects" EntityType="TeamManagerDBModel.Project" />
+          <EntitySet Name="TimeEntries" EntityType="TeamManagerDBModel.TimeEntry" />
+          <EntitySet Name="Trackers" EntityType="TeamManagerDBModel.Tracker" />
+          <AssociationSet Name="FK_IssueAssignement" Association="TeamManagerDBModel.FK_IssueAssignement">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueCreator" Association="TeamManagerDBModel.FK_IssueCreator">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Creator" Association="TeamManagerDBModel.FK_Project_Creator">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntry_User" Association="TeamManagerDBModel.FK_TimeEntry_User">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Priorities" Association="TeamManagerDBModel.FK_Issues_Priorities">
+            <End Role="Dictionaries" EntitySet="Dictionaries" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntry_Activity" Association="TeamManagerDBModel.FK_TimeEntry_Activity">
+            <End Role="Dictionaries" EntitySet="Dictionaries" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Project" Association="TeamManagerDBModel.FK_Issues_Project">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Trackers" Association="TeamManagerDBModel.FK_Issues_Trackers">
+            <End Role="Trackers" EntitySet="Trackers" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueStatus" Association="TeamManagerDBModel.FK_IssueStatus">
+            <End Role="IssueStatuses" EntitySet="IssueStatuses" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Issues" Association="TeamManagerDBModel.FK_TimeEntries_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="LoweredUserName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="MobileAlias" Type="String" MaxLength="16" Unicode="true" FixedLength="false" />
+          <Property Name="IsAnonymous" Type="Boolean" Nullable="false" />
+          <Property Name="LastActivityDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Assignements" Relationship="TeamManagerDBModel.FK_IssueAssignement" FromRole="aspnet_Users" ToRole="Issues" />
+          <NavigationProperty Name="Issues" Relationship="TeamManagerDBModel.FK_IssueCreator" FromRole="aspnet_Users" ToRole="Issues" />
+          <NavigationProperty Name="Projects" Relationship="TeamManagerDBModel.FK_Project_Creator" FromRole="aspnet_Users" ToRole="Projects" />
+          <NavigationProperty Name="TimeEntries" Relationship="TeamManagerDBModel.FK_TimeEntry_User" FromRole="aspnet_Users" ToRole="TimeEntries" />
+        </EntityType>
+        <EntityType Name="Dictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IsDefault" Type="Byte" Nullable="false" />
+          <Property Name="Weight" Type="Int32" />
+          <NavigationProperty Name="Issues" Relationship="TeamManagerDBModel.FK_Issues_Priorities" FromRole="Dictionaries" ToRole="Issues" />
+          <NavigationProperty Name="TimeEntries" Relationship="TeamManagerDBModel.FK_TimeEntry_Activity" FromRole="Dictionaries" ToRole="TimeEntries" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="PriorityId" Type="Int32" Nullable="false" />
+          <Property Name="AssignedTo" Type="Guid" />
+          <Property Name="AuthorId" Type="Guid" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" />
+          <Property Name="StartDate" Type="DateTime" />
+          <Property Name="DueDate" Type="DateTime" />
+          <Property Name="EstimatedHours" Type="Double" />
+          <Property Name="DoneRatio" Type="Int32" Nullable="false" />
+          <Property Name="TrackerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssignedUser" Relationship="TeamManagerDBModel.FK_IssueAssignement" FromRole="Issues" ToRole="aspnet_Users" />
+          <NavigationProperty Name="Creator" Relationship="TeamManagerDBModel.FK_IssueCreator" FromRole="Issues" ToRole="aspnet_Users" />
+          <NavigationProperty Name="Priority" Relationship="TeamManagerDBModel.FK_Issues_Priorities" FromRole="Issues" ToRole="Dictionaries" />
+          <NavigationProperty Name="Project" Relationship="TeamManagerDBModel.FK_Issues_Project" FromRole="Issues" ToRole="Projects" />
+          <NavigationProperty Name="Tracker" Relationship="TeamManagerDBModel.FK_Issues_Trackers" FromRole="Issues" ToRole="Trackers" />
+          <NavigationProperty Name="IssueStatus" Relationship="TeamManagerDBModel.FK_IssueStatus" FromRole="Issues" ToRole="IssueStatuses" />
+          <NavigationProperty Name="TimeEntries" Relationship="TeamManagerDBModel.FK_TimeEntries_Issues" FromRole="Issues" ToRole="TimeEntries" />
+        </EntityType>
+        <EntityType Name="IssueStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IsClosed" Type="Byte" Nullable="false" />
+          <Property Name="IsDefault" Type="Byte" Nullable="false" />
+          <Property Name="DefaultDoneRatio" Type="Int32" />
+          <Property Name="Weight" Type="Int32" />
+          <NavigationProperty Name="Issues" Relationship="TeamManagerDBModel.FK_IssueStatus" FromRole="IssueStatuses" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" />
+          <Property Name="UpdatedOn" Type="DateTime" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsPublic" Type="Byte" />
+          <NavigationProperty Name="Creator" Relationship="TeamManagerDBModel.FK_Project_Creator" FromRole="Projects" ToRole="aspnet_Users" />
+          <NavigationProperty Name="Issues" Relationship="TeamManagerDBModel.FK_Issues_Project" FromRole="Projects" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="TimeEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Hours" Type="Double" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="SpentOn" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" />
+          <Property Name="ActivityId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="TeamManagerDBModel.FK_TimeEntry_User" FromRole="TimeEntries" ToRole="aspnet_Users" />
+          <NavigationProperty Name="Activity" Relationship="TeamManagerDBModel.FK_TimeEntry_Activity" FromRole="TimeEntries" ToRole="Dictionaries" />
+          <NavigationProperty Name="Issue" Relationship="TeamManagerDBModel.FK_TimeEntries_Issues" FromRole="TimeEntries" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="Tracker">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Weight" Type="Int32" />
+          <NavigationProperty Name="Issues" Relationship="TeamManagerDBModel.FK_Issues_Trackers" FromRole="Trackers" ToRole="Issues" />
+        </EntityType>
+        <Association Name="FK_IssueAssignement">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.User" Multiplicity="0..1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueCreator">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.User" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Creator">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.User" Multiplicity="1" />
+          <End Role="Projects" Type="TeamManagerDBModel.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntry_User">
+          <End Role="aspnet_Users" Type="TeamManagerDBModel.User" Multiplicity="1" />
+          <End Role="TimeEntries" Type="TeamManagerDBModel.TimeEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Priorities">
+          <End Role="Dictionaries" Type="TeamManagerDBModel.Dictionary" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dictionaries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="PriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntry_Activity">
+          <End Role="Dictionaries" Type="TeamManagerDBModel.Dictionary" Multiplicity="1" />
+          <End Role="TimeEntries" Type="TeamManagerDBModel.TimeEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dictionaries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Project">
+          <End Role="Projects" Type="TeamManagerDBModel.Project" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Trackers">
+          <End Role="Trackers" Type="TeamManagerDBModel.Tracker" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trackers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="TrackerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueStatus">
+          <End Role="IssueStatuses" Type="TeamManagerDBModel.IssueStatus" Multiplicity="1" />
+          <End Role="Issues" Type="TeamManagerDBModel.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueStatuses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Issues">
+          <End Role="Issues" Type="TeamManagerDBModel.Issue" Multiplicity="1" />
+          <End Role="TimeEntries" Type="TeamManagerDBModel.TimeEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TeamManagerDBModelStoreContainer" CdmEntityContainer="TeamManagerDBEntities">
+          <EntitySetMapping Name="aspnet_Users"><EntityTypeMapping TypeName="TeamManagerDBModel.User"><MappingFragment StoreEntitySet="aspnet_Users">
+            <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+            <ScalarProperty Name="UserId" ColumnName="UserId" />
+            <ScalarProperty Name="UserName" ColumnName="UserName" />
+            <ScalarProperty Name="LoweredUserName" ColumnName="LoweredUserName" />
+            <ScalarProperty Name="MobileAlias" ColumnName="MobileAlias" />
+            <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+            <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Dictionaries"><EntityTypeMapping TypeName="TeamManagerDBModel.Dictionary"><MappingFragment StoreEntitySet="Dictionaries">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Type" ColumnName="Type" />
+            <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+            <ScalarProperty Name="Weight" ColumnName="Weight" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Issues"><EntityTypeMapping TypeName="TeamManagerDBModel.Issue"><MappingFragment StoreEntitySet="Issues">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+            <ScalarProperty Name="Subject" ColumnName="Subject" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+            <ScalarProperty Name="PriorityId" ColumnName="PriorityId" />
+            <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+            <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+            <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+            <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+            <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+            <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+            <ScalarProperty Name="EstimatedHours" ColumnName="EstimatedHours" />
+            <ScalarProperty Name="DoneRatio" ColumnName="DoneRatio" />
+            <ScalarProperty Name="TrackerId" ColumnName="TrackerId" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="IssueStatuses"><EntityTypeMapping TypeName="TeamManagerDBModel.IssueStatus"><MappingFragment StoreEntitySet="IssueStatuses">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+            <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+            <ScalarProperty Name="DefaultDoneRatio" ColumnName="DefaultDoneRatio" />
+            <ScalarProperty Name="Weight" ColumnName="Weight" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Projects"><EntityTypeMapping TypeName="TeamManagerDBModel.Project"><MappingFragment StoreEntitySet="Projects">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+            <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+            <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+            <ScalarProperty Name="Status" ColumnName="Status" />
+            <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TimeEntries"><EntityTypeMapping TypeName="TeamManagerDBModel.TimeEntry"><MappingFragment StoreEntitySet="TimeEntries">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+            <ScalarProperty Name="UserId" ColumnName="UserId" />
+            <ScalarProperty Name="Hours" ColumnName="Hours" />
+            <ScalarProperty Name="Comment" ColumnName="Comment" />
+            <ScalarProperty Name="SpentOn" ColumnName="SpentOn" />
+            <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+            <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+            <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Trackers"><EntityTypeMapping TypeName="TeamManagerDBModel.Tracker"><MappingFragment StoreEntitySet="Trackers">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Weight" ColumnName="Weight" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="TeamManager.DataModel">
+        <EntityTypeShape EntityType="TeamManagerDBModel.User" Width="1.5" PointX="0.5" PointY="3.125" Height="3.1340950520833335" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeamManagerDBModel.Dictionary" Width="1.5" PointX="0.5" PointY="0.5" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeamManagerDBModel.Issue" Width="1.5" PointX="4.875" PointY="0.5" Height="5.2494108072916648" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeamManagerDBModel.IssueStatus" Width="1.5" PointX="7" PointY="0.5" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeamManagerDBModel.Project" Width="1.5" PointX="2.75" PointY="4.875" Height="2.9417936197916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeamManagerDBModel.TimeEntry" Width="1.5" PointX="2.75" PointY="1" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeamManagerDBModel.Tracker" Width="1.5" PointX="7" PointY="3.125" Height="1.7879850260416674" IsExpanded="true" />
+        <AssociationConnector Association="TeamManagerDBModel.FK_IssueAssignement" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="4.6006982421875" />
+          <ConnectorPoint PointX="4.875" PointY="4.6006982421875" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_IssueCreator" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="4.43229736328125" />
+          <ConnectorPoint PointX="4.875" PointY="4.43229736328125" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_Project_Creator" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="5.5670475260416667" />
+          <ConnectorPoint PointX="2.75" PointY="5.5670475260416667" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_TimeEntry_User" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="3.7256982421875" />
+          <ConnectorPoint PointX="2.75" PointY="3.7256982421875" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_Issues_Priorities" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="0.71875" />
+          <ConnectorPoint PointX="4.875" PointY="0.71875" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_TimeEntry_Activity" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="1.9324446614583328" />
+          <ConnectorPoint PointX="2.75" PointY="1.9324446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_Issues_Project" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.25" PointY="5.3122054036458319" />
+          <ConnectorPoint PointX="4.875" PointY="5.3122054036458319" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_Issues_Trackers" ManuallyRouted="false">
+          <ConnectorPoint PointX="7" PointY="4.0189925130208337" />
+          <ConnectorPoint PointX="6.375" PointY="4.0189925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_IssueStatus" ManuallyRouted="false">
+          <ConnectorPoint PointX="7" PointY="1.6824446614583328" />
+          <ConnectorPoint PointX="6.375" PointY="1.6824446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="TeamManagerDBModel.FK_TimeEntries_Issues" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.875" PointY="2.6631982421875" />
+          <ConnectorPoint PointX="4.25" PointY="2.6631982421875" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

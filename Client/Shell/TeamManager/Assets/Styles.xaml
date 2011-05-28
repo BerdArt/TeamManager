@@ -174,7 +174,7 @@
     -->
     <!-- Logo Icon Style -->
     <Style x:Key="LogoIcon" TargetType="ContentControl">
-        <Setter Property="Content" Value="lorem ipsum dolor sit" />
+        <Setter Property="Content" Value="TeamManager is a flexible project management application." />
         <Setter Property="Foreground" Value="{StaticResource NavigationForegroundColorBrush}" />
         <Setter Property="Height" Value="24" />
         <Setter Property="Margin" Value="0" />
