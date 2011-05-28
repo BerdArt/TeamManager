@@ -1,0 +1,10 @@
+*.zip
+*.rar
+*.user
+*.docstates
+Bin/
+bin/
+ClientBin/
+obj/
+Generated_Code/
+_ReSharper*
