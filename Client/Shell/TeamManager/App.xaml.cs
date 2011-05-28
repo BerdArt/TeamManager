@@ -34,8 +34,8 @@
             // This will automatically authenticate a user when using Windows authentication or when the user chose "Keep me signed in" on a previous login attempt.
             WebContext.Current.Authentication.LoadUser(this.Application_UserLoaded, null);
 
-            // Show some UI to the user while LoadUser is in progress
-            this.InitializeRootVisual();
+            // Create and Run bootsrapper
+            new Bootstrapper().Run();
         }
 
         /// <summary>
@@ -54,7 +54,7 @@
         protected virtual void InitializeRootVisual()
         {
             TeamManager.Controls.BusyIndicator busyIndicator = new TeamManager.Controls.BusyIndicator();
-            busyIndicator.Content = new MainPage();
+            busyIndicator.Content = new Shell();
             busyIndicator.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             busyIndicator.VerticalContentAlignment = VerticalAlignment.Stretch;
 

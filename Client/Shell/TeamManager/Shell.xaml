@@ -1,5 +1,5 @@
 ﻿<UserControl 
-  x:Class="TeamManager.MainPage"
+  x:Class="TeamManager.Shell"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation" 
@@ -38,6 +38,9 @@
                                 NavigateUri="/Home" TargetName="ContentFrame" Content="{Binding Path=Strings.HomePageTitle, Source={StaticResource ApplicationResources}}"/>
             <Rectangle x:Name="Divider1" Style="{StaticResource DividerStyle}"/>
             <HyperlinkButton x:Name="Link2" Style="{StaticResource LinkStyle}" 
+                                NavigateUri="/Projects" TargetName="ContentFrame" Content="{Binding Path=Strings.ProjectsPageTitle, Source={StaticResource ApplicationResources}}"/>
+            <Rectangle x:Name="Divider2" Style="{StaticResource DividerStyle}"/>
+            <HyperlinkButton x:Name="Link3" Style="{StaticResource LinkStyle}" 
                                 NavigateUri="/About" TargetName="ContentFrame" Content="{Binding Path=Strings.AboutPageTitle, Source={StaticResource ApplicationResources}}"/>
         </StackPanel>
 

@@ -110,6 +110,20 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
 
+
+    <!-- 
+    ***************************************************************************
+    Content Region Style
+    ***************************************************************************
+    -->
+    <Style x:Key="ContentRegionStyle" TargetType="ContentControl">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Padding" Value="30,0" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+
     <!-- 
     ***************************************************************************
     Navigation Outer StackPanel Style 

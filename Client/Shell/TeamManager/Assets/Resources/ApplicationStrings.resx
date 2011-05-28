@@ -124,7 +124,7 @@
     <value>Already registered?</value>
   </data>
   <data name="ApplicationName" xml:space="preserve">
-    <value>Application Name</value>
+    <value>Team Manager</value>
   </data>
   <data name="AuthenticatingMessage" xml:space="preserve">
     <value>authenticating...</value>
@@ -180,5 +180,8 @@
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Welcome {0}</value>
     <comment>{0} = User.DisplayName property</comment>
+  </data>
+  <data name="ProjectsPageTitle" xml:space="preserve">
+    <value>Projects</value>
   </data>
 </root>

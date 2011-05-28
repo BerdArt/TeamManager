@@ -8,12 +8,12 @@
     /// <summary>
     /// <see cref="UserControl"/> class providing the main UI for the application.
     /// </summary>
-    public partial class MainPage : UserControl
+    public partial class Shell : UserControl
     {
         /// <summary>
-        /// Creates a new <see cref="MainPage"/> instance.
+        /// Creates a new <see cref="Shell"/> instance.
         /// </summary>
-        public MainPage()
+        public Shell()
         {
             InitializeComponent();
         }
