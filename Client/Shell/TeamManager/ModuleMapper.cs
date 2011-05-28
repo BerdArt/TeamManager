@@ -10,7 +10,7 @@ namespace TeamManager
         {
             ModuleMap = new Dictionary<string, List<string>>
                             {
-                                {"/Projects", new List<string> {"ProjectModule"}}
+                                {"/Projects", new List<string> {"ProjectModule", "IssueModule"}}
                             };
         }
     }

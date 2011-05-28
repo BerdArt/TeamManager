@@ -12,9 +12,9 @@
             Ref="TeamManager.Modules.Activity.xap" ModuleName="ActivityModule" 
             ModuleType="TeamManager.Modules.Activity.ActivityModule, TeamManager.Modules.Activity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
             />-->
-        <!--<Modularity:ModuleInfo
+        <Modularity:ModuleInfo
             Ref="TeamManager.Modules.Issues.xap" ModuleName="IssueModule" 
             ModuleType="TeamManager.Modules.Issues.IssueModule, TeamManager.Modules.Issues, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-            />-->
+            />
     </Modularity:ModuleInfoGroup>
 </Modularity:ModuleCatalog>

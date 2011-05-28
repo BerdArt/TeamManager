@@ -1,0 +1,54 @@
+﻿<controls:ChildWindow x:Class="TeamManager.Modules.Issues.Views.TimelogFormView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
+        xmlns:df="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" 
+        xmlns:rb="clr-namespace:TeamManager.Infrastructure.RelativeBinding;assembly=TeamManager.Infrastructure" 
+        xmlns:src="clr-namespace:TeamManager.Infrastructure.Converters;assembly=TeamManager.Infrastructure" 
+        Width="400" Height="300" Title="Log time">
+    
+    <controls:ChildWindow.Resources>
+        <ResourceDictionary>
+            <src:DateTimeConverter x:Key="DateTime" />
+        </ResourceDictionary>
+    </controls:ChildWindow.Resources>
+    
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <df:DataForm AutoEdit="True" AutoCommit="False" CommandButtonsVisibility="None"
+                     CurrentItem="{Binding CurrentLogEntry, Mode=TwoWay}" AutoGenerateFields="False"
+                     x:Name="TimeEntryForm">
+            <df:DataForm.EditTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding IssueTitle}" Style="{StaticResource Heading4}"/>
+                        <df:DataField Label="Date">
+                            <controls:DatePicker Text="{Binding SpentOn, Mode=TwoWay}"  />
+                        </df:DataField>
+                        <df:DataField>
+                            <TextBox Text="{Binding Hours, Mode=TwoWay}" />
+                        </df:DataField>
+                        <df:DataField>
+                            <TextBox Text="{Binding Comment, Mode=TwoWay}" />
+                        </df:DataField>
+                        <df:DataField Label="Activity">
+                            <ComboBox SelectedItem="{Binding Activity, Mode=TwoWay}" DisplayMemberPath="Name">
+                                <rb:BindingHelper.Binding>
+                                    <rb:RelativeSourceBinding Path="DataContext.Activities" TargetProperty="ItemsSource"
+                                                              RelativeMode="FindAncestor" AncestorType="ChildWindow" />
+                                </rb:BindingHelper.Binding>
+                            </ComboBox>
+                        </df:DataField>
+                    </StackPanel>
+                </DataTemplate>
+            </df:DataForm.EditTemplate>
+        </df:DataForm>
+
+        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" />
+        <Button x:Name="OKButton" Content="Save" Click="OKButton_Click" Width="75" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="1" />
+    </Grid>
+</controls:ChildWindow>

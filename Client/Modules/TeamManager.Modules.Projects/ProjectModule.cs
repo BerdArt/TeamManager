@@ -45,8 +45,8 @@ namespace TeamManager.Modules.Projects
         public override void RegisterRegions()
         {
 //            RegionManager.RegisterViewWithRegion("HeaderRegion", typeof(ProjectListSidebarView));
-//            RegionManager.RegisterViewWithRegionInIndex("MainRegion", typeof (ProjectListView), 1 );
-            RegionManager.RegisterViewWithRegion("MainRegion", typeof (ProjectListView));
+            RegionManager.RegisterViewWithRegionInIndex("MainRegion", typeof (ProjectListView), 1 );
+//            RegionManager.RegisterViewWithRegion("MainRegion", typeof (ProjectListView));
         }
 
         protected override void RegisterTypes()
