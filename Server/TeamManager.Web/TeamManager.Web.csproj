@@ -64,6 +64,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientBin\TeamManager.Modules.Issues.xap" />
     <Content Include="ClientBin\TeamManager.Modules.Projects.xap" />
     <Content Include="ClientBin\TeamManager.xap" />
     <Content Include="TeamManagerTestPage.aspx" />
