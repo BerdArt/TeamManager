@@ -12,14 +12,16 @@
 	<Grid x:Name="LayoutRoot">
 		<ScrollViewer x:Name="PageScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
 
-			<StackPanel x:Name="ContentStackPanel">
+			<!--<StackPanel x:Name="ContentStackPanel">
 
 				<TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
 						   Text="{Binding Path=Strings.ProjectsPageTitle, Source={StaticResource ApplicationResources}}"/>
 				<ContentControl regions:RegionManager.RegionName="MainRegion"
 					Style="{StaticResource ContentRegionStyle}" />
 				
-			</StackPanel>
+			</StackPanel>-->
+            <ContentControl regions:RegionManager.RegionName="MainRegion"
+					Style="{StaticResource ContentRegionStyle}" />
 
 		</ScrollViewer>
 	</Grid>
