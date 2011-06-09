@@ -1,106 +1,120 @@
 ﻿<UserControl x:Class="TeamManager.Modules.Issues.Views.ProjectIssuesView" x:Name="ProjectIssuesControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:src="clr-namespace:TeamManager.Infrastructure.Converters;assembly=TeamManager.Infrastructure"
-    xmlns:dg="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
-    xmlns:rb="clr-namespace:TeamManager.Infrastructure.RelativeBinding;assembly=TeamManager.Infrastructure"
-    mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400">
-    
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <src:TextFormatConverter x:Key="TextFormatter" />
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
-    <StackPanel VerticalAlignment="Stretch">
-        <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{Binding HeaderTitle}" />
-        <dg:DataGrid x:Name="issuesList" CanUserSortColumns="True" CanUserResizeColumns="True"
-                   IsReadOnly="True" AutoGenerateColumns="False" 
-                   ItemsSource="{Binding Issues}" 
-                   HorizontalAlignment="Stretch">
-            <dg:DataGrid.Columns>
-                <dg:DataGridTextColumn Header="#" Binding="{Binding Id}" />
-                <dg:DataGridTemplateColumn Header="Title">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <HyperlinkButton Content="{Binding Subject}" 
-                                             Foreground="#666666" FontSize="14"                                              
-                                             CommandParameter="{Binding}">
-                                <rb:BindingHelper.Binding>
-                                    <rb:RelativeSourceBinding Path="DataContext.OpenIssueCommand"
-                                                              TargetProperty="Command"
-                                                              RelativeMode="FindAncestor"
-                                                              AncestorType="UserControl" />
-                                </rb:BindingHelper.Binding>
-                            </HyperlinkButton>
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:src="clr-namespace:TeamManager.Infrastructure.Converters;assembly=TeamManager.Infrastructure"
+	xmlns:dg="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+	xmlns:rb="clr-namespace:TeamManager.Infrastructure.RelativeBinding;assembly=TeamManager.Infrastructure"
+	xmlns:clb="clr-namespace:TeamManager.Infrastructure;assembly=TeamManager.Infrastructure" 
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+	mc:Ignorable="d"
+	d:DesignHeight="300" d:DesignWidth="400">
+	
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<clb:UserRolesProxy d:IsDataSource="True" x:Key="ms" />
+			<src:TextFormatConverter x:Key="TextFormatter" />
+		</ResourceDictionary>
+	</UserControl.Resources>
+	
+	<StackPanel VerticalAlignment="Stretch">
+		<TextBlock Style="{StaticResource HeaderTextStyle}" Text="{Binding HeaderTitle}" />
+		<dg:DataGrid x:Name="issuesList" CanUserSortColumns="True" CanUserResizeColumns="True"
+				   IsReadOnly="True" AutoGenerateColumns="False" 
+				   ItemsSource="{Binding Issues}" 
+				   HorizontalAlignment="Stretch">
+			<dg:DataGrid.Columns>
+				<dg:DataGridTextColumn Header="#" Binding="{Binding Id}" />
+				<dg:DataGridTemplateColumn Header="Title">
+					<dg:DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<HyperlinkButton Content="{Binding Subject}" 
+											 Foreground="#666666" FontSize="14"                                              
+											 CommandParameter="{Binding}">
+								<rb:BindingHelper.Binding>
+									<rb:RelativeSourceBinding Path="DataContext.OpenIssueCommand"
+															  TargetProperty="Command"
+															  RelativeMode="FindAncestor"
+															  AncestorType="UserControl" />
+								</rb:BindingHelper.Binding>
+							</HyperlinkButton>
+						</DataTemplate>
+					</dg:DataGridTemplateColumn.CellTemplate>
+				</dg:DataGridTemplateColumn>
 <!--                <dg:DataGridTextColumn Header="Title" Binding="{Binding Subject}" />-->
-                <dg:DataGridTextColumn Header="Author" Binding="{Binding Creator}" />
-                <dg:DataGridTextColumn Header="Assigned" Binding="{Binding AssignedUser}" />
-                <dg:DataGridTextColumn Header="Created" Binding="{Binding CreatedOn}" />
-                <dg:DataGridTextColumn Header="UpdatedOn" Binding="{Binding UpdatedOn}" />
-                <dg:DataGridTextColumn Binding="{Binding DoneRatio, Converter={StaticResource TextFormatter}, ConverterParameter='{0}%'}" />
-                <dg:DataGridTemplateColumn CanUserSort="False" CanUserReorder="False">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <HyperlinkButton Content="Delete" Foreground="#666666" 
-                                             CommandParameter="{Binding}"
-                                             VerticalAlignment="Center">
-                                <rb:BindingHelper.Binding>
-                                    <rb:BindingList>
-                                        <rb:RelativeSourceBinding 
-                                            Path="DataContext.DeleteIssueCommand"
-                                            TargetProperty="Command"
-                                            RelativeMode="FindAncestor"
-                                            AncestorType="UserControl" />
-                                    </rb:BindingList>
-                                </rb:BindingHelper.Binding>
-                            </HyperlinkButton>
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-            </dg:DataGrid.Columns>
-        </dg:DataGrid>
-        <Button Content="Create new issue" HorizontalAlignment="Center" Margin="15"
-                Command="{Binding CreateIssueCommand}" />
-        <!--<ItemsControl ItemsSource="{Binding Issues}" HorizontalAlignment="Stretch" x:Name="issuesList">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Subject}" Style="{StaticResource Heading3}" />
-                            <TextBlock Text="{Binding Description}" Style="{StaticResource ContentTextStyle}" 
-                                       TextTrimming="WordEllipsis" FontSize="11" Foreground="Gray" />
-                        </StackPanel>
-                        <TextBlock Grid.Column="1" Text="{Binding AssignedOn}" Style="{StaticResource CenteredTextStyle}" />
-                        <TextBlock Grid.Column="2"  Style="{StaticResource CenteredTextStyle}"
-                                   Text="{Binding EstimatedHours}" />
-                        <StackPanel Grid.Column="3" Style="{StaticResource ButtonStackPanelStyle}">
-                            <Button Content="Edit" Margin="0,5"
-                                    Command="{Binding DataContext.EditIssueCommand, ElementName=ProjectIssuesControl}" 
-                                    CommandParameter="{Binding}" />
-                            <Button Content="Delete" Margin=" 0,5"
-                                    Command="{Binding DataContext.DeleteIssueCommand, ElementName=ProjectIssuesControl}" 
-                                    CommandParameter="{Binding}" />
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>-->
-        <!--<Button Content="Create new issue" HorizontalAlignment="Center" Margin="15"
-                Command="{Binding CreateIssueCommand}" />-->
+				<dg:DataGridTextColumn Header="Author" Binding="{Binding Creator}" />
+				<dg:DataGridTextColumn Header="Assigned" Binding="{Binding AssignedUser}" />
+				<dg:DataGridTextColumn Header="Created" Binding="{Binding CreatedOn}" />
+				<dg:DataGridTextColumn Header="UpdatedOn" Binding="{Binding UpdatedOn}" />
+				<dg:DataGridTextColumn Binding="{Binding DoneRatio, Converter={StaticResource TextFormatter}, ConverterParameter='{0}%'}" />
+				<dg:DataGridTemplateColumn CanUserSort="False" CanUserReorder="False">
+					<dg:DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<HyperlinkButton Content="Delete" Foreground="#666666" 
+											 CommandParameter="{Binding}"
+											 VerticalAlignment="Center">
+								<rb:BindingHelper.Binding>
+									<rb:BindingList>
+										<rb:RelativeSourceBinding 
+											Path="DataContext.DeleteIssueCommand"
+											TargetProperty="Command"
+											RelativeMode="FindAncestor"
+											AncestorType="UserControl" />
+									</rb:BindingList>
+								</rb:BindingHelper.Binding>
+								<i:Interaction.Behaviors>
+									<clb:AccessByRoleBehavior
+										AllowRoles="Administrator,Manager"
+										UserRoles="{Binding RolesService.UserRoles, Source={StaticResource ms}, Mode=OneWay}" />
+								</i:Interaction.Behaviors>
+							</HyperlinkButton>
+						</DataTemplate>
+					</dg:DataGridTemplateColumn.CellTemplate>
+				</dg:DataGridTemplateColumn>
+			</dg:DataGrid.Columns>
+		</dg:DataGrid>
+		<Button Content="Create new issue" HorizontalAlignment="Center" Margin="15"
+				Command="{Binding CreateIssueCommand}" >
+			<i:Interaction.Behaviors>
+				<clb:AccessByRoleBehavior
+					AllowRoles="Administrator,Manager"
+					UserRoles="{Binding RolesService.UserRoles, Source={StaticResource ms}, Mode=OneWay}" />
+			</i:Interaction.Behaviors>
+		</Button>
+		<!--<ItemsControl ItemsSource="{Binding Issues}" HorizontalAlignment="Stretch" x:Name="issuesList">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid HorizontalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="100" />
+							<ColumnDefinition Width="50" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding Subject}" Style="{StaticResource Heading3}" />
+							<TextBlock Text="{Binding Description}" Style="{StaticResource ContentTextStyle}" 
+									   TextTrimming="WordEllipsis" FontSize="11" Foreground="Gray" />
+						</StackPanel>
+						<TextBlock Grid.Column="1" Text="{Binding AssignedOn}" Style="{StaticResource CenteredTextStyle}" />
+						<TextBlock Grid.Column="2"  Style="{StaticResource CenteredTextStyle}"
+								   Text="{Binding EstimatedHours}" />
+						<StackPanel Grid.Column="3" Style="{StaticResource ButtonStackPanelStyle}">
+							<Button Content="Edit" Margin="0,5"
+									Command="{Binding DataContext.EditIssueCommand, ElementName=ProjectIssuesControl}" 
+									CommandParameter="{Binding}" />
+							<Button Content="Delete" Margin=" 0,5"
+									Command="{Binding DataContext.DeleteIssueCommand, ElementName=ProjectIssuesControl}" 
+									CommandParameter="{Binding}" />
+						</StackPanel>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>-->
+		<!--<Button Content="Create new issue" HorizontalAlignment="Center" Margin="15"
+				Command="{Binding CreateIssueCommand}" />-->
 
-    </StackPanel>
+	</StackPanel>
 
 </UserControl>

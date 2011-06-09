@@ -6,14 +6,8 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation" 
   xmlns:regions="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" 
-  xmlns:clb="clr-namespace:TeamManager.Infrastructure;assembly=TeamManager.Infrastructure" 
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
   mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"  
   Style="{StaticResource PageStyle}">
-	
-	<navigation:Page.Resources>
-		<clb:UserRolesProxy d:IsDataSource="True" x:Key="ms" />
-	</navigation:Page.Resources>
 
 	<Grid x:Name="LayoutRoot">
 		<ScrollViewer x:Name="PageScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
@@ -25,13 +19,6 @@
 				<ContentControl regions:RegionManager.RegionName="MainRegion"
 					Style="{StaticResource ContentRegionStyle}" />
 				
-				<Button Content="Check visibility" HorizontalAlignment="Center">
-					<i:Interaction.Behaviors>
-						<clb:AccessByRoleBehavior
-								AllowRoles="Manager"
-								UserRoles="{Binding RolesService.UserRoles, Source={StaticResource ms}, Mode=OneWay}" />
-					</i:Interaction.Behaviors>
-				</Button>
 			</StackPanel>
 
 		</ScrollViewer>

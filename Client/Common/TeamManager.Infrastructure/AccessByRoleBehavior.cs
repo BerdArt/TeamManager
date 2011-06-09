@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interactivity;
 using TeamManager.Infrastructure.Messages;
 
@@ -95,14 +96,21 @@ namespace TeamManager.Infrastructure
             if (_userRoles != null)
             {
                 var allowRoles = AllowRoles.Split(new[] { ',' }).ToList();
-                AssociatedObject.Visibility = _userRoles.Any(allowRoles.Contains)
-                                                       ? Visibility.Visible
-                                                       : Visibility.Collapsed;
+                if (_userRoles.Any(allowRoles.Contains))
+                {
+                    if (AssociatedObject is DataForm)
+                        (AssociatedObject as DataForm).CommandButtonsVisibility = 
+                            DataFormCommandButtonsVisibility.All;
+                    else
+                        AssociatedObject.Visibility = Visibility.Visible;
+                    return;
+                }
             }
+            if (AssociatedObject is DataForm)
+                (AssociatedObject as DataForm).CommandButtonsVisibility = 
+                    DataFormCommandButtonsVisibility.Navigation;
             else
-            {
                 AssociatedObject.Visibility = Visibility.Collapsed;
-            }
         }
 
         #endregion

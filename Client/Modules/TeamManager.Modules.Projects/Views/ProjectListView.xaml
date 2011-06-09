@@ -1,55 +1,77 @@
 ﻿<UserControl 
-    x:Class="TeamManager.Modules.Projects.Views.ProjectListView" 
-    x:Name="ProjectListControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:src="clr-namespace:TeamManager.Infrastructure.Converters;assembly=TeamManager.Infrastructure" 
-    mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400">
+	x:Class="TeamManager.Modules.Projects.Views.ProjectListView" 
+	x:Name="ProjectListControl"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:src="clr-namespace:TeamManager.Infrastructure.Converters;assembly=TeamManager.Infrastructure" 
+	xmlns:clb="clr-namespace:TeamManager.Infrastructure;assembly=TeamManager.Infrastructure"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+	mc:Ignorable="d"
+	d:DesignHeight="300" d:DesignWidth="400">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <src:DateTimeConverter x:Key="DateTimeConverter" />
-            <src:TextFormatConverter x:Key="TextFormatter" />
-        </ResourceDictionary>
-    </UserControl.Resources>
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<clb:UserRolesProxy d:IsDataSource="True" x:Key="ms" />
+			<src:DateTimeConverter x:Key="DateTimeConverter" />
+			<src:TextFormatConverter x:Key="TextFormatter" />
+		</ResourceDictionary>
+	</UserControl.Resources>
 
-    <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-        <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{Binding HeaderTitle}" />
-        
-        <ItemsControl ItemsSource="{Binding Projects}" HorizontalAlignment="Stretch" Margin="20,10">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel HorizontalAlignment="Stretch">
-                            <HyperlinkButton Content="{Binding Title}" FontSize="14" FontWeight="Bold"
-                                             Command="{Binding ElementName=ProjectListControl, Path=DataContext.ViewProjectCommand}" 
-                                             CommandParameter="{Binding}"/>
-                            <TextBlock Text="{Binding Description}" Style="{StaticResource ContentTextStyle}" />
-                        </StackPanel>
-                        <TextBlock Grid.Column="1" Style="{StaticResource CenteredTextStyle}"
-                                   Text="{Binding Path=Issues.Count, Converter={StaticResource TextFormatter}, ConverterParameter='{0:d} issues'}" />
-                        <TextBlock Grid.Column="2" Style="{StaticResource CenteredTextStyle}"
-                                   Text="{Binding CreatedOn, Converter={StaticResource DateTimeConverter}, ConverterParameter='dd MMM yyyy' }" />
-                        <StackPanel Grid.Column="3" Style="{StaticResource ButtonStackPanelStyle}">
-                            <Button Content="Edit" Margin="5" 
-                                    Command="{Binding ElementName=ProjectListControl, Path=DataContext.EditProjectCommand}" CommandParameter="{Binding}" />
-                            <Button Content="Delete" Margin="5" 
-                                    Command="{Binding ElementName=ProjectListControl, Path=DataContext.DeleteProjectCommand}" CommandParameter="{Binding}" />
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+	<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+		<TextBlock Style="{StaticResource HeaderTextStyle}" Text="{Binding HeaderTitle}" />
+		
+		<ItemsControl ItemsSource="{Binding Projects}" HorizontalAlignment="Stretch" Margin="20,10">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid HorizontalAlignment="Stretch">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="100" />
+							<ColumnDefinition Width="100" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<StackPanel HorizontalAlignment="Stretch">
+							<HyperlinkButton Content="{Binding Title}" FontSize="14" FontWeight="Bold"
+											 Command="{Binding ElementName=ProjectListControl, Path=DataContext.ViewProjectCommand}" 
+											 CommandParameter="{Binding}"/>
+							<TextBlock Text="{Binding Description}" Style="{StaticResource ContentTextStyle}" />
+						</StackPanel>
+						<TextBlock Grid.Column="1" Style="{StaticResource CenteredTextStyle}"
+								   Text="{Binding Path=Issues.Count, Converter={StaticResource TextFormatter}, ConverterParameter='{0:d} issues'}" />
+						<TextBlock Grid.Column="2" Style="{StaticResource CenteredTextStyle}"
+								   Text="{Binding CreatedOn, Converter={StaticResource DateTimeConverter}, ConverterParameter='dd MMM yyyy' }" />
+						<StackPanel Grid.Column="3" Style="{StaticResource ButtonStackPanelStyle}">
+							<Button Content="Edit" Margin="5" 
+									Command="{Binding ElementName=ProjectListControl, Path=DataContext.EditProjectCommand}" CommandParameter="{Binding}" >
+								<i:Interaction.Behaviors>
+									<clb:AccessByRoleBehavior
+										AllowRoles="Administrator,Manager"
+										UserRoles="{Binding RolesService.UserRoles, Source={StaticResource ms}, Mode=OneWay}" />
+								</i:Interaction.Behaviors>
+							</Button>
+							<Button Content="Delete" Margin="5" 
+									Command="{Binding ElementName=ProjectListControl, Path=DataContext.DeleteProjectCommand}" CommandParameter="{Binding}" >
+								<i:Interaction.Behaviors>
+									<clb:AccessByRoleBehavior
+										AllowRoles="Administrator,Manager"
+										UserRoles="{Binding RolesService.UserRoles, Source={StaticResource ms}, Mode=OneWay}" />
+								</i:Interaction.Behaviors>
+							</Button>
+						</StackPanel>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 
-        <Button Content="Create new" HorizontalAlignment="Center" Command="{Binding CreateProjectCommand}" />
-    </StackPanel>
+		<Button Content="Create new" HorizontalAlignment="Center" 
+				Command="{Binding CreateProjectCommand}" >
+			<i:Interaction.Behaviors>
+				<clb:AccessByRoleBehavior
+					AllowRoles="Administrator"
+					UserRoles="{Binding RolesService.UserRoles, Source={StaticResource ms}, Mode=OneWay}" />
+			</i:Interaction.Behaviors>
+		</Button>
+	</StackPanel>
 </UserControl>
