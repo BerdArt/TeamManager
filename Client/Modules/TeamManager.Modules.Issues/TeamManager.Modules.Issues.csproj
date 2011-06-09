@@ -126,10 +126,6 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Server\Services\TeamManager.Services\TeamManager.Services.csproj">
-      <Project>{F52D35AB-B16F-4D3D-BD56-719326474E2F}</Project>
-      <Name>TeamManager.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\TeamManager.Infrastructure\TeamManager.Infrastructure.csproj">
       <Project>{BF08B308-99B3-4AD6-9E93-1FB76BF56AB5}</Project>
       <Name>TeamManager.Infrastructure</Name>

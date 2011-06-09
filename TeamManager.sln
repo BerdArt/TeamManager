@@ -21,6 +21,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{B6D9C99E-2FC1-4DA3-A77D-5B1E855FCF82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamManager.Infrastructure", "Client\Common\TeamManager.Infrastructure\TeamManager.Infrastructure.csproj", "{BF08B308-99B3-4AD6-9E93-1FB76BF56AB5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DD90E8A0-7035-449A-90CD-74A1AAB64C23} = {DD90E8A0-7035-449A-90CD-74A1AAB64C23}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamManager.Modules.Projects", "Client\Modules\TeamManager.Modules.Projects\TeamManager.Modules.Projects.csproj", "{7196C563-045C-4097-8E3E-61D7E8AE1AA0}"
 EndProject

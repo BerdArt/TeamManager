@@ -1,4 +1,8 @@
-﻿namespace TeamManager
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Microsoft.Practices.Prism.ViewModel;
+
+namespace TeamManager
 {
     using System.Windows.Controls;
     using System.Windows.Navigation;

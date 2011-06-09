@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ServiceModel.DomainServices.Client.ApplicationServices;
 using System.Windows;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.UnityExtensions;
@@ -6,6 +9,8 @@ using Microsoft.Practices.Unity;
 //using TeamManager.Modules.Issues;
 //using TeamManager.ViewModels;
 //using TeamManager.Views;
+using TeamManager.Infrastructure;
+using TeamManager.Infrastructure.Messages;
 using TeamManager.Infrastructure.ModalDialog;
 using TeamManager.Web.Services;
 using Modularity = Microsoft.Practices.Prism.Modularity;
@@ -24,12 +29,29 @@ namespace TeamManager
                 VerticalContentAlignment = VerticalAlignment.Stretch
             };
 
+            WebContext.Current.Authentication.LoggedIn += PublishUserRoles;
+            WebContext.Current.Authentication.LoggedOut += PublishUserRoles;
+
             Application.Current.RootVisual = busyIndicator;
             return busyIndicator;
         }
 
+        public void PublishUserRoles(object sender, AuthenticationEventArgs args)
+        {
+            UserRoleService.GetInstance().UserRoles = new ObservableCollection<string>(
+                WebContext.Current.User.Roles
+                );
+            /* Messanger.Get<UserLoginMessage>().Publish(
+                       new UserLoginEventArgs
+                       {
+                           UserName = WebContext.Current.User.DisplayName,
+                           UserRoles = new List<string>(WebContext.Current.User.Roles)
+                       });*/
+        }
+
         protected override IUnityContainer CreateContainer()
         {
+
             var container = base.CreateContainer();
             container.RegisterType<TeamManagerDomainContext>();
             container.RegisterType<IModalDialogService, ModalDialogService>();

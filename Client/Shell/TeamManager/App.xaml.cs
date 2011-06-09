@@ -1,4 +1,7 @@
-﻿namespace TeamManager
+﻿using System.Collections.Generic;
+using TeamManager.Infrastructure.Messages;
+
+namespace TeamManager
 {
     using System;
     using System.Runtime.Serialization;
@@ -24,6 +27,7 @@
             webContext.Authentication = new FormsAuthentication();
             //webContext.Authentication = new WindowsAuthentication();
             this.ApplicationLifetimeObjects.Add(webContext);
+
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)

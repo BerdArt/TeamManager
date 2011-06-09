@@ -2,22 +2,39 @@
   x:Class="TeamManager.Projects" 
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation" xmlns:regions="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"  
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation" 
+  xmlns:regions="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" 
+  xmlns:clb="clr-namespace:TeamManager.Infrastructure;assembly=TeamManager.Infrastructure" 
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+  mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"  
   Style="{StaticResource PageStyle}">
+	
+	<navigation:Page.Resources>
+		<clb:UserRolesProxy d:IsDataSource="True" x:Key="ms" />
+	</navigation:Page.Resources>
 
-  <Grid x:Name="LayoutRoot">
-    <ScrollViewer x:Name="PageScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
+	<Grid x:Name="LayoutRoot">
+		<ScrollViewer x:Name="PageScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
 
-      <StackPanel x:Name="ContentStackPanel">
+			<StackPanel x:Name="ContentStackPanel">
 
-        <TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
-                           Text="{Binding Path=Strings.ProjectsPageTitle, Source={StaticResource ApplicationResources}}"/>
-                <ContentControl regions:RegionManager.RegionName="MainRegion"
-                            Style="{StaticResource ContentRegionStyle}" />
-            </StackPanel>
+				<TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
+						   Text="{Binding Path=Strings.ProjectsPageTitle, Source={StaticResource ApplicationResources}}"/>
+				<ContentControl regions:RegionManager.RegionName="MainRegion"
+					Style="{StaticResource ContentRegionStyle}" />
+				
+				<Button Content="Check visibility" HorizontalAlignment="Center">
+					<i:Interaction.Behaviors>
+						<clb:AccessByRoleBehavior
+								AllowRoles="Manager"
+								UserRoles="{Binding RolesService.UserRoles, Source={StaticResource ms}, Mode=OneWay}" />
+					</i:Interaction.Behaviors>
+				</Button>
+			</StackPanel>
 
-    </ScrollViewer>
-  </Grid>
+		</ScrollViewer>
+	</Grid>
 
 </navigation:Page>
