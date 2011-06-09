@@ -4,40 +4,30 @@
            xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
            xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" 
            xmlns:src="clr-namespace:TeamManager.Infrastructure.Converters;assembly=TeamManager.Infrastructure" 
-           Width="600" Height="500" 
-           Title="{Binding WindowTitle}">
+           Width="600" Height="350" 
+           Title="{Binding WindowTitle, Mode=OneWay}">
     <controls:ChildWindow.Resources>
         <src:ByteToBoolConverter x:Key="ByteToBoolConverter" />
+        
+        <DataTemplate x:Key="EditProjectFormTemplate">
+            <StackPanel>
+                <toolkit:DataField>
+                    <TextBox Text="{Binding Title, Mode=TwoWay}" />
+                </toolkit:DataField>
+                <toolkit:DataField>
+                    <TextBox Text="{Binding Description, Mode=TwoWay}" Height="100" TextWrapping="Wrap" AcceptsReturn="True" />
+                </toolkit:DataField>
+                <toolkit:DataField>
+                    <CheckBox IsChecked="{Binding IsPublic, Mode=TwoWay, Converter={StaticResource ByteToBoolConverter}}"  />
+                </toolkit:DataField>
+            </StackPanel>
+        </DataTemplate>
     </controls:ChildWindow.Resources>
     
     <Grid x:Name="LayoutRoot" Margin="2">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <toolkit:DataForm CurrentItem="{Binding CurrentProject}" x:Name="ProjectForm" 
-                          AutoCommit="False" CommitButtonContent="Save" CancelButtonContent="Cancel"
-                           CommandButtonsVisibility="Edit, Commit, Cancel"
-                          Header="{Binding FormTitle}">
-            <toolkit:DataForm.EditTemplate>
-                <DataTemplate>                   
-                    <StackPanel>
-                        <toolkit:DataField>
-                            <TextBox Text="{Binding Title, Mode=TwoWay}" />
-                        </toolkit:DataField>
-                        <toolkit:DataField>
-                            <TextBox Text="{Binding Description, Mode=TwoWay}" Height="100" TextWrapping="Wrap" AcceptsReturn="True" />
-                        </toolkit:DataField>
-                        <toolkit:DataField>
-                            <CheckBox IsChecked="{Binding IsPublic, Mode=TwoWay, Converter={StaticResource ByteToBoolConverter}}"  />
-                        </toolkit:DataField>
-                    </StackPanel>                    
-                </DataTemplate>
-            </toolkit:DataForm.EditTemplate>
-        </toolkit:DataForm>
-        
-        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" />
-        <Button x:Name="OKButton" Content="OK" Click="OKButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="1" />
+        <toolkit:DataForm CurrentItem="{Binding CurrentProject, Mode=TwoWay}" 
+                          AutoCommit="False" Header="{Binding CurrentProject.Title, Mode=OneWay}"
+                          EditTemplate="{StaticResource EditProjectFormTemplate}"
+                          EditEnded="ProjectForm_EditEnded" />
     </Grid>
 </controls:ChildWindow>

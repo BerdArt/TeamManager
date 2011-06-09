@@ -15,20 +15,6 @@ namespace TeamManager.Modules.Projects.Views
     {
         public ProjectListView()
         {
-            DataContext = new
-                              {
-                                  HeaderTitle = "Projects",
-                                  Projects = new List<Project>
-                                                 {
-                                                     new Project
-                                                         {
-                                                             Title = "Project title",
-                                                             Description =
-                                                                 "Design time data. Project description text goes here.",
-                                                             CreatedOn = DateTime.Now
-                                                         }
-                                                 }
-                              };
             InitializeComponent();
         }
 

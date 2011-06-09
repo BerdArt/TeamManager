@@ -5,44 +5,40 @@ using TeamManager.Web.Models;
 
 namespace TeamManager.Modules.Projects.ViewModels
 {
+    /// <summary>
+    /// Model for EditProject view. Store WindowTitle and CurrentProject.
+    /// </summary>
     public class EditProjectViewModel : NotificationObject
     {
-        private string WindowTitle { get; set; }
-        private string FormTitle { get; set; }
-        private bool IsNew { get; set; }
         private Project _project;
 
+        /// <summary>
+        /// Window title
+        /// </summary>
+        public string WindowTitle { get; set; }
+
+        /// <summary>
+        /// Current project property. Store information of the currently edited project.
+        /// Binds to DataForm.
+        /// </summary>
         public Project CurrentProject
         {
             get { return _project; }
             set
             {
                 _project = value;
-                IsNew = _project.Id == 0;
-                SetTitle();
+                WindowTitle = _project.Id == 0 ? "New project" : "Edit project";
+                RaisePropertyChanged(() => WindowTitle);
                 RaisePropertyChanged(() => CurrentProject);
             }
         }
 
-        private void SetTitle()
-        {
-            if (IsNew)
-            {
-                WindowTitle = "Create new project";
-                FormTitle = "New project";
-            }
-            else
-            {
-                WindowTitle = "Edit project";
-                FormTitle = string.Format("Edit project '{0}'", CurrentProject.Title);
-            }
-            RaisePropertyChanged(() => WindowTitle);
-            RaisePropertyChanged(() => FormTitle);
-        }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public EditProjectViewModel()
         {
-            
+            WindowTitle = "Edit project form";
         }
     }
 }
