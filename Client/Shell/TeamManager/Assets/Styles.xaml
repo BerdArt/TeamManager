@@ -516,7 +516,7 @@
         <Setter Property="Foreground" Value="#FFFFFFFF"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="6,2"/>
+        <Setter Property="Margin" Value="20,2"/>
     </Style>
 
     <!-- Welcome Text Style -->
@@ -524,8 +524,8 @@
         <Setter Property="Foreground" Value="{StaticResource NavigationForegroundColorBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}"/>
         <Setter Property="FontSize" Value="12"/>        
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="0,2,0,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <!--<Setter Property="Margin" Value="0,2,0,0"/>-->
     </Style>
 
     <!-- LoginRegister Link Style -->

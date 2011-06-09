@@ -151,7 +151,7 @@ namespace TeamManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to |        LOGIN          .
+        ///   Looks up a localized string similar to LOGIN.
         /// </summary>
         public static string LoginButton {
             get {
@@ -169,7 +169,7 @@ namespace TeamManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to |        LOGOUT          .
+        ///   Looks up a localized string similar to LOGOUT.
         /// </summary>
         public static string LogOffButton {
             get {
