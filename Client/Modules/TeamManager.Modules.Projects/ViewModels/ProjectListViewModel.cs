@@ -1,11 +1,14 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ServiceModel.DomainServices.Client;
 using System.Windows.Input;
 using Microsoft.Practices.Prism;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.Unity;
+using TeamManager.Infrastructure;
 using TeamManager.Infrastructure.Messages;
 using TeamManager.Infrastructure.ModalDialog;
 using TeamManager.Web.Models;
@@ -39,16 +42,27 @@ namespace TeamManager.Modules.Projects.ViewModels
             EditProjectCommand = new DelegateCommand<Project>(EditProjectExecute, project => true);
             DeleteProjectCommand = new DelegateCommand<Project>(DeleteProjectExecute, project => true);
             ViewProjectCommand = new DelegateCommand<Project>(ViewProjectExecute, project => true);
+            UserRoleService.GetInstance().PropertyChanged += UserRolesChanged;
             LoadData();
+        }
+
+        private void UserRolesChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "UserRoles")
+                LoadData();
         }
 
         public void LoadData()
         {
-            _context.Load(_context.GetProjectsQuery(),
+            var query = UserRoleService.GetInstance().UserRoles.Count > 0
+                            ? _context.GetProjectsQuery()
+                            : _context.GetPublicProjectsQuery();
+            
+            _context.Load(query, LoadBehavior.RefreshCurrent,
                          loadOperation =>
                          {
                              Projects = new ObservableCollection<Project>(_context.Projects);
-                             RaisePropertyChanged("Projects");
+                             RaisePropertyChanged(() => Projects);
                          }, null);
         }
 

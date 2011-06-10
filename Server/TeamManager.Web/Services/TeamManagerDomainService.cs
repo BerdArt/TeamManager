@@ -37,6 +37,7 @@ namespace TeamManager.Web.Services
             return GetDictionaryByName("time_activity");
         }
 
+        [RequiresRole("Administrator", "Only Administrator can add dictionary item")]
         public void InsertDictionary(Dictionary dictionary)
         {
             if ((dictionary.EntityState != EntityState.Detached))
@@ -49,11 +50,13 @@ namespace TeamManager.Web.Services
             }
         }
 
+        [RequiresRole("Administrator", "Only Administrator can update dictionary item")]
         public void UpdateDictionary(Dictionary currentDictionary)
         {
             this.ObjectContext.Dictionaries.AttachAsModified(currentDictionary, this.ChangeSet.GetOriginal(currentDictionary));
         }
 
+        [RequiresRole("Administrator", "Only Administrator can delete dictionary item")]
         public void DeleteDictionary(Dictionary dictionary)
         {
             if ((dictionary.EntityState != EntityState.Detached))
@@ -78,6 +81,7 @@ namespace TeamManager.Web.Services
                 .OrderByDescending(issue => issue.CreatedOn);
         }
 
+        [RequiresRole("Administrator", "Manager", "Only Administrator and Manager can delete issue")]
         public void InsertIssue(Issue issue)
         {
             issue.CreatedOn = DateTime.Now;
@@ -93,12 +97,14 @@ namespace TeamManager.Web.Services
             }
         }
 
+        [RequiresRole("Administrator", "Manager", "Developer", "Only member with Developer role or greater can update issue")]
         public void UpdateIssue(Issue currentIssue)
         {
             currentIssue.UpdatedOn = DateTime.Now;
             this.ObjectContext.Issues.AttachAsModified(currentIssue, this.ChangeSet.GetOriginal(currentIssue));
         }
 
+        [RequiresRole("Administrator", "Manager", "Only Administrator and Manager can delete issue")]
         public void DeleteIssue(Issue issue)
         {
             if ((issue.EntityState != EntityState.Detached))
@@ -117,6 +123,7 @@ namespace TeamManager.Web.Services
             return this.ObjectContext.IssueStatuses;
         }
 
+        [RequiresRole("Administrator", "Only Administrator can add issue status")]
         public void InsertIssueStatus(IssueStatus issueStatus)
         {
             if ((issueStatus.EntityState != EntityState.Detached))
@@ -129,11 +136,13 @@ namespace TeamManager.Web.Services
             }
         }
 
+        [RequiresRole("Administrator", "Only Administrator can update issue status")]
         public void UpdateIssueStatus(IssueStatus currentIssueStatus)
         {
             this.ObjectContext.IssueStatuses.AttachAsModified(currentIssueStatus, this.ChangeSet.GetOriginal(currentIssueStatus));
         }
 
+        [RequiresRole("Administrator", "Only Administrator can delete issue status")]
         public void DeleteIssueStatus(IssueStatus issueStatus)
         {
             if ((issueStatus.EntityState != EntityState.Detached))
@@ -147,12 +156,21 @@ namespace TeamManager.Web.Services
             }
         }
 
+        [RequiresAuthentication]
         public IQueryable<Project> GetProjects()
         {
             return ObjectContext.Projects.Include("Issues").Where(p => p.Status == 1).
                 OrderBy(p => p.CreatedOn);
         }
 
+        public IQueryable<Project> GetPublicProjects()
+        {
+            return
+                ObjectContext.Projects.Include("Issues").Where(p => p.Status == 1 && p.IsPublic == 1).OrderByDescending(
+                    p => p.CreatedOn);
+        }
+
+        [RequiresRole("Administrator", "Only Administrator can add new project")]
         public void InsertProject(Project project)
         {
             project.CreatedOn = DateTime.Now;
@@ -168,11 +186,13 @@ namespace TeamManager.Web.Services
             }
         }
 
+        [RequiresRole("Administrator", "Only Administrator can update new project")]
         public void UpdateProject(Project currentProject)
         {
             this.ObjectContext.Projects.AttachAsModified(currentProject, this.ChangeSet.GetOriginal(currentProject));
         }
 
+        [RequiresRole("Administrator", "Only Administrator can delete new project")]
         public void DeleteProject(Project project)
         {
             if ((project.EntityState != EntityState.Detached))
@@ -191,6 +211,7 @@ namespace TeamManager.Web.Services
             return this.ObjectContext.TimeEntries;
         }
 
+        [RequiresRole("Administrator", "Manager", "Developer", "Only members with Developer role or higher can add time entries")]
         public void InsertTimeEntry(TimeEntry timeEntry)
         {
             timeEntry.CreatedOn = DateTime.Now;
