@@ -4,24 +4,13 @@
 		xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
 		xmlns:df="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" 
 		xmlns:rb="clr-namespace:TeamManager.Infrastructure.RelativeBinding;assembly=TeamManager.Infrastructure" 
-		xmlns:src="clr-namespace:TeamManager.Infrastructure.Converters;assembly=TeamManager.Infrastructure" 
 		Width="400" Height="300" Title="Log time">
 	
 	<controls:ChildWindow.Resources>
 		<ResourceDictionary>
-			<src:DateTimeConverter x:Key="DateTime" />
 
 			<DataTemplate x:Key="TimeEntryFormEditTemplate">
 				<StackPanel Orientation="Vertical">
-					<!--<TextBlock Style="{StaticResource Heading4}">
-							<rb:BindingHelper.Binding>
-								<rb:RelativeSourceBinding Path="DataContext.IssueTitle"
-													TargetProperty="Text"
-													RelativeMode="FindAncestor"
-													AncestorType="ChildWindow"
-														  />
-							</rb:BindingHelper.Binding>
-					</TextBlock>-->
 					<df:DataField Label="Date">
 						<controls:DatePicker SelectedDate="{Binding SpentOn, Mode=TwoWay}" SelectedDateFormat="Short" FirstDayOfWeek="Sunday" />
 					</df:DataField>
@@ -45,18 +34,11 @@
 	</controls:ChildWindow.Resources>
 	
 	<Grid x:Name="LayoutRoot" Margin="2">
-		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
 
 		<df:DataForm CurrentItem="{Binding CurrentLogEntry, Mode=TwoWay}" 
 					 AutoCommit="False" Header="{Binding IssueTitle, Mode=OneWay}"
-					 
 					 EditEnded="TimeEntryForm_EditEnded" 
 					 EditTemplate="{StaticResource TimeEntryFormEditTemplate}"/>
 
-<!--		<Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" />-->
-<!--		<Button x:Name="OKButton" Content="Save" Click="OKButton_Click" Width="75" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="1" />-->
 	</Grid>
 </controls:ChildWindow>
