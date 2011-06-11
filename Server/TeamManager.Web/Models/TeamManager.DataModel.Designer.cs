@@ -251,6 +251,47 @@ namespace TeamManager.Web.Models
         }
 
         #endregion
+        #region Function Imports
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="role">No Metadata Documentation available.</param>
+        public ObjectResult<User> GetUsersByRole(global::System.String role)
+        {
+            ObjectParameter roleParameter;
+            if (role != null)
+            {
+                roleParameter = new ObjectParameter("role", role);
+            }
+            else
+            {
+                roleParameter = new ObjectParameter("role", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<User>("GetUsersByRole", roleParameter);
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="mergeOption"></param>
+        /// <param name="role">No Metadata Documentation available.</param>
+        public ObjectResult<User> GetUsersByRole(global::System.String role, MergeOption mergeOption)
+        {
+            ObjectParameter roleParameter;
+            if (role != null)
+            {
+                roleParameter = new ObjectParameter("role", role);
+            }
+            else
+            {
+                roleParameter = new ObjectParameter("role", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<User>("GetUsersByRole", mergeOption, roleParameter);
+        }
+
+        #endregion
     }
     
 

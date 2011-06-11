@@ -37,30 +37,33 @@
 						</Grid.RowDefinitions>
 
 						<dataForm:DataField Label="Tracker">
-							<TextBlock Text="{Binding Tracker.Name}" />
+							<TextBlock Text="{Binding Tracker.Name, Mode=OneWay}" />
 						</dataForm:DataField>
 						<dataForm:DataField Grid.Row="1" Label="Priority">
-							<TextBlock Text="{Binding Priority.Name}" />
+							<TextBlock Text="{Binding Priority.Name, Mode=OneWay}" />
 						</dataForm:DataField>
 						<dataForm:DataField Grid.Row="2" Label="Status">
-							<TextBlock Text="{Binding IssueStatus.Name}" />
+							<TextBlock Text="{Binding IssueStatus.Name, Mode=OneWay}" />
+						</dataForm:DataField>
+						<dataForm:DataField Grid.Row="3" Label="Assigned to">
+							<TextBlock Text="{Binding AssignedUser.UserName, Mode=OneWay}" />
 						</dataForm:DataField>
 						<dataForm:DataField Grid.Column="2">
-							<TextBlock Text="{Binding StartDate, Converter={StaticResource DateTime}}" />
+							<TextBlock Text="{Binding StartDate, Mode=OneWay, Converter={StaticResource DateTime}}" />
 						</dataForm:DataField>
 						<dataForm:DataField Grid.Column="2" Grid.Row="1">
-							<TextBlock Text="{Binding DueDate, Converter={StaticResource DateTime}}" />
+							<TextBlock Text="{Binding DueDate, Mode=OneWay, Converter={StaticResource DateTime}}" />
 						</dataForm:DataField>
 						<dataForm:DataField Grid.Column="2" Grid.Row="2">
-							<TextBlock Text="{Binding EstimatedHours, Converter={StaticResource TextFormat}, ConverterParameter='{0} hrs'}" />
+							<TextBlock Text="{Binding EstimatedHours, Mode=OneWay, Converter={StaticResource TextFormat}, ConverterParameter='{0} hrs'}" />
 						</dataForm:DataField>
 						<dataForm:DataField Grid.Column="2" Grid.Row="3" Label="Done">
 							<StackPanel Orientation="Horizontal">
 								<Border BorderBrush="#FF343537" Width="100" BorderThickness="1" CornerRadius="2">
-									<Rectangle Fill="#8ddbff" Width="{Binding DoneRatio}" HorizontalAlignment="Left" RadiusX="2" RadiusY="2" />
+									<Rectangle Fill="#8ddbff" Width="{Binding DoneRatio, Mode=OneWay}" HorizontalAlignment="Left" RadiusX="2" RadiusY="2" />
 								</Border>
 								<TextBlock Margin="5,0"
-									Text="{Binding DoneRatio, Converter={StaticResource TextFormat}, ConverterParameter='{0}%'}" />
+									Text="{Binding DoneRatio, Mode=OneWay, Converter={StaticResource TextFormat}, ConverterParameter='{0}%'}" />
 							</StackPanel>
 						</dataForm:DataField>
 						<StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2">
@@ -105,7 +108,7 @@
 							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<dataForm:DataField Label="Tracker">
+						<dataForm:DataField Label="Tracker" IsRequired="True">
 							<ComboBox DisplayMemberPath="Name"
 									  SelectedItem="{Binding Tracker, Mode=TwoWay}">
 								<rb:BindingHelper.Binding>
@@ -135,6 +138,18 @@
 								<rb:BindingHelper.Binding>
 									<rb:BindingList>
 										<rb:RelativeSourceBinding Path="DataContext.IssueStatuses"
+											TargetProperty="ItemsSource" RelativeMode="FindAncestor"
+											AncestorType="UserControl"/>
+									</rb:BindingList>
+								</rb:BindingHelper.Binding>
+							</ComboBox>
+						</dataForm:DataField>
+						<dataForm:DataField Grid.Row="3" Label="Assigned to">
+							<ComboBox DisplayMemberPath="UserName"
+								  SelectedItem="{Binding AssignedUser, Mode=TwoWay}">
+								<rb:BindingHelper.Binding>
+									<rb:BindingList>
+										<rb:RelativeSourceBinding Path="DataContext.Developers"
 											TargetProperty="ItemsSource" RelativeMode="FindAncestor"
 											AncestorType="UserControl"/>
 									</rb:BindingList>

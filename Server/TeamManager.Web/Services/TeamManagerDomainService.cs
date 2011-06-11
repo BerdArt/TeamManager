@@ -280,7 +280,10 @@ namespace TeamManager.Web.Services
             }
         }
 
-
+        public IQueryable<User> GetUsersByRole(string role)
+        {
+            return ObjectContext.GetUsersByRole(role).AsQueryable();
+        }
     }
 }
 

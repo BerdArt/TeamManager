@@ -28,6 +28,7 @@ namespace TeamManager.Modules.Issues.ViewModels
         public ObservableCollection<IssueStatus> IssueStatuses { get; set; }
         public ObservableCollection<Tracker> Trackers { get; set; }
         public ObservableCollection<Dictionary> Priorities { get; set; }
+        public ObservableCollection<User> Developers { get; set; }
         public PagedCollectionView Issues { get; set; }
         public ICommand SaveIssueCommand { get; set; }
         public ICommand ShowIssuesCommand { get; set; }
@@ -66,6 +67,15 @@ namespace TeamManager.Modules.Issues.ViewModels
                     {
                         Priorities = new ObservableCollection<Dictionary>(_context.Dictionaries);
                         RaisePropertyChanged(() => Priorities);
+                    },
+                null
+                );
+            _context.Load(
+                _context.GetUsersByRoleQuery("Developer"), LoadBehavior.RefreshCurrent,
+                lo =>
+                    {
+                        Developers = new ObservableCollection<User>(_context.Users);
+                        RaisePropertyChanged(() => Developers);
                     },
                 null
                 );
