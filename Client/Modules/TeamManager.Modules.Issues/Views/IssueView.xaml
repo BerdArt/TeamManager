@@ -65,7 +65,7 @@
 						</dataForm:DataField>
 						<StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2">
 							<dataForm:DataField Label="Spended time">
-								<TextBlock Text="{Binding SpendedTime, Converter={StaticResource TextFormat}, ConverterParameter='{0} hrs'}" />
+								<TextBlock Text="{Binding SpendedTime, Mode=OneWay, Converter={StaticResource TextFormat}, ConverterParameter='{0} hrs'}" />
 							</dataForm:DataField>
 							<HyperlinkButton Content="+" VerticalAlignment="Center">
 								<rb:BindingHelper.Binding>

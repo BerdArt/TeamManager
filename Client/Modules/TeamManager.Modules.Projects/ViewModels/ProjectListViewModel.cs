@@ -31,13 +31,13 @@ namespace TeamManager.Modules.Projects.ViewModels
         private readonly IModalDialogService _modalDialogService;
         private readonly IMessageBoxService _messageBoxService;
 
-        public ProjectListViewModel(TeamManagerDomainContext context, IUnityContainer container, IModalDialogService modalDialogService, IMessageBoxService messageBoxService)
+        public ProjectListViewModel(IUnityContainer container)
         {
             HeaderTitle = "Project List";
-            _context = context;
             _container = container;
-            _modalDialogService = modalDialogService;
-            _messageBoxService = messageBoxService;
+            _context = _container.Resolve<TeamManagerDomainContext>("TM_DB");
+            _modalDialogService = _container.Resolve<IModalDialogService>();
+            _messageBoxService = _container.Resolve<IMessageBoxService>();
             CreateProjectCommand = new DelegateCommand(CreateProjectExecute, () => true);
             EditProjectCommand = new DelegateCommand<Project>(EditProjectExecute, project => true);
             DeleteProjectCommand = new DelegateCommand<Project>(DeleteProjectExecute, project => true);
@@ -54,11 +54,7 @@ namespace TeamManager.Modules.Projects.ViewModels
 
         public void LoadData()
         {
-            var query = UserRoleService.GetInstance().UserRoles.Count > 0
-                            ? _context.GetProjectsQuery()
-                            : _context.GetPublicProjectsQuery();
-            
-            _context.Load(query, LoadBehavior.RefreshCurrent,
+            _context.Load(_context.GetProjectsQuery(), LoadBehavior.RefreshCurrent,
                          loadOperation =>
                          {
                              Projects = new ObservableCollection<Project>(_context.Projects);

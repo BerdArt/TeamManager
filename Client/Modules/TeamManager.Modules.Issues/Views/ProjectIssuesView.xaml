@@ -15,6 +15,7 @@
 		<ResourceDictionary>
 			<clb:UserRolesProxy d:IsDataSource="True" x:Key="ms" />
 			<src:TextFormatConverter x:Key="TextFormatter" />
+			<src:DateTimeConverter x:Key="DateTimeConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
 	
@@ -43,10 +44,10 @@
 					</dg:DataGridTemplateColumn.CellTemplate>
 				</dg:DataGridTemplateColumn>
 <!--                <dg:DataGridTextColumn Header="Title" Binding="{Binding Subject}" />-->
-				<dg:DataGridTextColumn Header="Author" Binding="{Binding Creator}" />
-				<dg:DataGridTextColumn Header="Assigned" Binding="{Binding AssignedUser}" />
-				<dg:DataGridTextColumn Header="Created" Binding="{Binding CreatedOn}" />
-				<dg:DataGridTextColumn Header="UpdatedOn" Binding="{Binding UpdatedOn}" />
+				<dg:DataGridTextColumn Header="Author" Binding="{Binding Creator.UserName}" />
+				<dg:DataGridTextColumn Header="Assigned" Binding="{Binding AssignedUser.UserName}" />
+				<dg:DataGridTextColumn Header="Created" Binding="{Binding CreatedOn, Converter={StaticResource DateTimeConverter}, ConverterParameter='dd MMM yyyy'}" />
+				<dg:DataGridTextColumn Header="UpdatedOn" Binding="{Binding UpdatedOn, Converter={StaticResource DateTimeConverter}, ConverterParameter='dd MMM yyyy'}" />
 				<dg:DataGridTextColumn Binding="{Binding DoneRatio, Converter={StaticResource TextFormatter}, ConverterParameter='{0}%'}" />
 				<dg:DataGridTemplateColumn CanUserSort="False" CanUserReorder="False">
 					<dg:DataGridTemplateColumn.CellTemplate>

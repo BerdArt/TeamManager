@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Regions;
+using System.ServiceModel.DomainServices.Client;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.Unity;
 using TeamManager.Web.Models;
@@ -12,7 +9,6 @@ namespace TeamManager.Modules.Issues.ViewModels
 {
     public class TimelogFormViewModel : NotificationObject
     {
-        private bool _isNew = false;
         private TimeEntry _timeEntry;
         public ObservableCollection<Dictionary> Activities { get; set; }
 
@@ -22,31 +18,27 @@ namespace TeamManager.Modules.Issues.ViewModels
             set
             {
                 _timeEntry = value;
-                _timeEntry.SpentOn = DateTime.Now;
                 RaisePropertyChanged(() => CurrentLogEntry);
             }
         }
 
-        private Issue _issue;
-        public Issue Issue
+        private string _issueTitle = "New time log entry";
+        public string IssueTitle
         {
-            get { return _issue; }
+            get { return _issueTitle; }
             set
             {
-                _issue = value;
-                IssueTitle = _issue.Subject;
+                _issueTitle = value;
                 RaisePropertyChanged(() => IssueTitle);
             }
         }
 
-        public string IssueTitle { get; set; }
-
         public TimelogFormViewModel(IUnityContainer container)
         {
-            var context = container.Resolve<TeamManagerDomainContext>();
+            var context = container.Resolve<TeamManagerDomainContext>("TM_DB");
 
             context.Load(
-                context.GetActivitiesQuery(),
+                context.GetActivitiesQuery(), LoadBehavior.RefreshCurrent,
                 loadOperation =>
                     {
                         Activities = new ObservableCollection<Dictionary>(context.Dictionaries);

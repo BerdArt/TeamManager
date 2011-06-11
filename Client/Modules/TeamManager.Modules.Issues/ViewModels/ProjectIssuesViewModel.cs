@@ -36,15 +36,15 @@ namespace TeamManager.Modules.Issues.ViewModels
         private readonly IModalDialogService _modalDialogService;
         private readonly IMessageBoxService _messageBoxService;
 
-        public ProjectIssuesViewModel(TeamManagerDomainContext context, IUnityContainer container, IModalDialogService dialogService, IMessageBoxService messageService)
+        public ProjectIssuesViewModel(IUnityContainer container)
         {
             HeaderTitle = "Issues";
-            
 
-            _context = context;
+
             _container = container;
-            _modalDialogService = dialogService;
-            _messageBoxService = messageService;
+            _context = _container.Resolve<TeamManagerDomainContext>("TM_DB"); 
+            _modalDialogService = _container.Resolve<IModalDialogService>();
+            _messageBoxService = _container.Resolve<IMessageBoxService>();
 
             Messanger.Get<ProjectSelectionMessage>().Subscribe(OnSelectedProjectChanged);
 
@@ -138,7 +138,7 @@ namespace TeamManager.Modules.Issues.ViewModels
             _context.Load(query, LoadBehavior.RefreshCurrent,
                           loadOperation =>
                               {
-                                  IssueList = new ObservableCollection<Issue>(_context.Issues);
+                                  IssueList = new ObservableCollection<Web.Models.Issue>(_context.Issues);
                                   Issues = new PagedCollectionView(IssueList);
                                   RaisePropertyChanged(() => Issues);
                               }, null);

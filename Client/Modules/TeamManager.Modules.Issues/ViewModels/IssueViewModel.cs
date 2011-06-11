@@ -1,10 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ServiceModel.DomainServices.Client;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
@@ -37,14 +37,14 @@ namespace TeamManager.Modules.Issues.ViewModels
         public IssueViewModel(IUnityContainer container)
         {
             _container = container;
-            _context = _container.Resolve<TeamManagerDomainContext>();
+            _context = _container.Resolve<TeamManagerDomainContext>("TM_DB");
             HeaderTitle = "Issue";
             AutoEditAllowed = false;
 
             Messanger.Get<ProjectSelectionMessage>().Subscribe(OnSelectedProjectChanged);
             
             _context.Load(
-                _context.GetIssueStatusesQuery(),
+                _context.GetIssueStatusesQuery(), LoadBehavior.RefreshCurrent,
                 loadOperation =>
                     {
                         IssueStatuses = new ObservableCollection<IssueStatus>(_context.IssueStatus);
@@ -52,7 +52,7 @@ namespace TeamManager.Modules.Issues.ViewModels
                     },
                 null);
             _context.Load(
-                _context.GetTrackersQuery(),
+                _context.GetTrackersQuery(), LoadBehavior.RefreshCurrent,
                 loadOperation =>
                     {
                         Trackers = new ObservableCollection<Tracker>(_context.Trackers);
@@ -61,7 +61,7 @@ namespace TeamManager.Modules.Issues.ViewModels
                 null
                 );
             _context.Load(
-                _context.GetPrioritiesQuery(),
+                _context.GetPrioritiesQuery(), LoadBehavior.RefreshCurrent,
                 loadOperation =>
                     {
                         Priorities = new ObservableCollection<Dictionary>(_context.Dictionaries);
@@ -80,7 +80,9 @@ namespace TeamManager.Modules.Issues.ViewModels
         {
             var viewModel = _container.Resolve<TimelogFormViewModel>();
             viewModel.CurrentLogEntry = new TimeEntry { SpentOn = DateTime.Now };
-            viewModel.Issue = Issues.CurrentItem as Issue;
+            
+            viewModel.IssueTitle = ((Issue) Issues.CurrentItem).Subject;
+//            viewModel.Issue = Issues.CurrentItem as Issue;
 
             var view = _container.Resolve<IModalWindow>("timelog_form");
             var modalDialogService = _container.Resolve<IModalDialogService>();
@@ -90,17 +92,18 @@ namespace TeamManager.Modules.Issues.ViewModels
                     {
                         if (!view.DialogResult.HasValue || !view.DialogResult.Value)
                             return;
-
-                        var timeEntry = viewModel.CurrentLogEntry;
-                        timeEntry.Issue = Issues.CurrentItem as Issue;
-                        _context.TimeEntries.Add(timeEntry);
+//                        ((Issue) Issues.CurrentItem).TimeEntries.Add(viewModel.CurrentLogEntry);
+                        viewModel.CurrentLogEntry.Issue = Issues.CurrentItem as Issue;
+                        
+                        _context.TimeEntries.Add(viewModel.CurrentLogEntry);
                         _context.SubmitChanges();
+                        RaisePropertyChanged(() => ((Issue) Issues.CurrentItem).SpendedTime);
                     });
         }
 
         private void OnCurrentChanged(object sender, EventArgs e)
         {
-            var issue = Issues.CurrentItem as Issue;
+            var issue = Issues.CurrentItem as Web.Models.Issue;
             if (issue == null) return;
             if (issue.Id == 0)
             {
@@ -130,7 +133,7 @@ namespace TeamManager.Modules.Issues.ViewModels
 
         public void ExecuteSaveIssue(DataFormEditEndedEventArgs args)
         {
-            var issue = Issues.CurrentItem as Issue;
+            var issue = Issues.CurrentItem as Web.Models.Issue;
             if (args.EditAction == DataFormEditAction.Cancel)
             {
                 _context.RejectChanges();
@@ -158,7 +161,7 @@ namespace TeamManager.Modules.Issues.ViewModels
         private void LoadData()
         {
             _context.Load(
-                _context.GetIssuesByProjectQuery(CurrentProjectId),
+                _context.GetIssuesByProjectQuery(CurrentProjectId), LoadBehavior.RefreshCurrent,
                 loadOperation =>
                     {
                         IssueList = new ObservableCollection<Issue>(_context.Issues);

@@ -132,6 +132,7 @@ namespace TeamManager.Web.Models
             public Nullable<Guid> AssignedTo { get; set; }
 
             [Display(Name = "Assigned to", AutoGenerateField = false)]
+            [Include]
             public User AssignedUser { get; set; }
 
             [Display(AutoGenerateField = false)]
@@ -141,6 +142,7 @@ namespace TeamManager.Web.Models
             public DateTime CreatedOn { get; set; }
 
             [Display(AutoGenerateField = false)]
+            [Include]
             public User Creator { get; set; }
 
             [Display(Name = "Done ratio")]
@@ -159,6 +161,7 @@ namespace TeamManager.Web.Models
             public Nullable<DateTime> StartDate { get; set; }
 
             [Display(AutoGenerateField = false)]
+            [Include]
             public EntityCollection<TimeEntry> TimeEntries { get; set; }
 
             [Display(Name = "Tracker")]

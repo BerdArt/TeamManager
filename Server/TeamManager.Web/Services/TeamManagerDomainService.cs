@@ -1,4 +1,6 @@
 ﻿
+using System.Security.Principal;
+
 namespace TeamManager.Web.Services
 {
     using System;
@@ -21,6 +23,12 @@ namespace TeamManager.Web.Services
     [EnableClientAccess()]
     public class TeamManagerDomainService : LinqToEntitiesDomainService<TeamManagerDBEntities>
     {
+        private IPrincipal _user;
+        public override void Initialize(DomainServiceContext context)
+        {
+            base.Initialize(context);
+            _user = context.User;
+        }
 
         public IQueryable<Dictionary> GetDictionaryByName(string dicName)
         {
@@ -77,7 +85,8 @@ namespace TeamManager.Web.Services
 
         public IQueryable<Issue> GetIssuesByProject(int projectId)
         {
-            return ObjectContext.Issues.Where(issue => issue.ProjectId == projectId)
+            return ObjectContext.Issues.Include("TimeEntries").Include("AssignedUser")
+                .Include("Creator").Where(issue => issue.ProjectId == projectId)
                 .OrderByDescending(issue => issue.CreatedOn);
         }
 
@@ -156,18 +165,13 @@ namespace TeamManager.Web.Services
             }
         }
 
-        [RequiresAuthentication]
         public IQueryable<Project> GetProjects()
         {
-            return ObjectContext.Projects.Include("Issues").Where(p => p.Status == 1).
-                OrderBy(p => p.CreatedOn);
-        }
-
-        public IQueryable<Project> GetPublicProjects()
-        {
-            return
-                ObjectContext.Projects.Include("Issues").Where(p => p.Status == 1 && p.IsPublic == 1).OrderByDescending(
-                    p => p.CreatedOn);
+            if (_user.Identity.IsAuthenticated)
+                return ObjectContext.Projects.Include("Issues").Where(p => p.Status == 1).
+                    OrderBy(p => p.CreatedOn);
+            return ObjectContext.Projects.Include("Issues").Where(p => p.Status == 1 && p.IsPublic == 1)
+                .OrderByDescending(p => p.CreatedOn);
         }
 
         [RequiresRole("Administrator", "Only Administrator can add new project")]

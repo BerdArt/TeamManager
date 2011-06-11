@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ServiceModel.DomainServices.Client;
 using System.ServiceModel.DomainServices.Client.ApplicationServices;
 using System.Windows;
 using Microsoft.Practices.Prism.Regions;
@@ -53,7 +54,8 @@ namespace TeamManager
         {
 
             var container = base.CreateContainer();
-            container.RegisterType<TeamManagerDomainContext>();
+            var dc = new TeamManagerDomainContext();
+            container.RegisterInstance("TM_DB", dc, new ContainerControlledLifetimeManager());
             container.RegisterType<IModalDialogService, ModalDialogService>();
             container.RegisterType<IMessageBoxService, MessageBoxService>();
 //            container.RegisterType<LoginFormViewModel>();
