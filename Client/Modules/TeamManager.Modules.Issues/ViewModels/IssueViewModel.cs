@@ -82,7 +82,6 @@ namespace TeamManager.Modules.Issues.ViewModels
             viewModel.CurrentLogEntry = new TimeEntry { SpentOn = DateTime.Now };
             
             viewModel.IssueTitle = ((Issue) Issues.CurrentItem).Subject;
-//            viewModel.Issue = Issues.CurrentItem as Issue;
 
             var view = _container.Resolve<IModalWindow>("timelog_form");
             var modalDialogService = _container.Resolve<IModalDialogService>();
@@ -92,7 +91,6 @@ namespace TeamManager.Modules.Issues.ViewModels
                     {
                         if (!view.DialogResult.HasValue || !view.DialogResult.Value)
                             return;
-//                        ((Issue) Issues.CurrentItem).TimeEntries.Add(viewModel.CurrentLogEntry);
                         viewModel.CurrentLogEntry.Issue = Issues.CurrentItem as Issue;
                         
                         _context.TimeEntries.Add(viewModel.CurrentLogEntry);
@@ -103,7 +101,7 @@ namespace TeamManager.Modules.Issues.ViewModels
 
         private void OnCurrentChanged(object sender, EventArgs e)
         {
-            var issue = Issues.CurrentItem as Web.Models.Issue;
+            var issue = Issues.CurrentItem as Issue;
             if (issue == null) return;
             if (issue.Id == 0)
             {
@@ -155,6 +153,7 @@ namespace TeamManager.Modules.Issues.ViewModels
         public void OnSelectedProjectChanged(SelectedProjectArgs args)
         {
             CurrentProjectId = args.ProjectId;
+            _context.Issues.Clear();
             LoadData();
         }
 
