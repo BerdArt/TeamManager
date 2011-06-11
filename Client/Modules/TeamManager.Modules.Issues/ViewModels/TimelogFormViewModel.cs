@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.ServiceModel.DomainServices.Client;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.Unity;
@@ -36,7 +37,7 @@ namespace TeamManager.Modules.Issues.ViewModels
         public TimelogFormViewModel(IUnityContainer container)
         {
             var context = container.Resolve<TeamManagerDomainContext>("TM_DB");
-
+            context.Dictionaries.Clear();
             context.Load(
                 context.GetActivitiesQuery(), LoadBehavior.RefreshCurrent,
                 loadOperation =>
