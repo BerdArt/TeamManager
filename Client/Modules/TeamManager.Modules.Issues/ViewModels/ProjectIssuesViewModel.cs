@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ServiceModel.DomainServices.Client;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Data;
 using Microsoft.Practices.Prism;
@@ -13,6 +14,7 @@ using Microsoft.Practices.Unity;
 using TeamManager.Infrastructure.Messages;
 using TeamManager.Infrastructure.ModalDialog;
 using TeamManager.Infrastructure.Commands;
+using TeamManager.Modules.Issues.Model;
 using TeamManager.Web.Models;
 using TeamManager.Web.Services;
 
@@ -23,10 +25,13 @@ namespace TeamManager.Modules.Issues.ViewModels
         public string HeaderTitle { get; set; }
         public PagedCollectionView Issues { get; set; }
         public ObservableCollection<Issue> IssueList { get; set; }
+        public ObservableCollection<GroupItem> GroupCriteria { get; set; }
         public ICommand EditIssueCommand { get; set; }
         public ICommand CreateIssueCommand { get; set; }
         public ICommand DeleteIssueCommand { get; set; }
         public ICommand OpenIssueCommand { get; set; }
+        public ICommand GroupChangedCommand { get; set; }
+        public ICommand ClearGroupingCommand { get; set; }
         
 
         int CurrentProjectId { get; set; }
@@ -48,10 +53,33 @@ namespace TeamManager.Modules.Issues.ViewModels
 
             Messanger.Get<ProjectSelectionMessage>().Subscribe(OnSelectedProjectChanged);
 
+            GroupCriteria = new ObservableCollection<GroupItem>(new List<GroupItem>
+                                                                    {
+                                                                        new GroupItem("Tracker", "Tracker.Name"),
+                                                                        new GroupItem("Priority", "Priority.Name"),
+                                                                        new GroupItem("Creator", "Creator.UserName"),
+                                                                        new GroupItem("Assigned member", "AssignedUser.UserName"),
+                                                                    });
+
             EditIssueCommand = new DelegateCommand<Issue>(ExecuteEditIssue, issue => true);
             CreateIssueCommand = new DelegateCommand(ExecuteCreateIssue, CanExecuteCreateIssue);
             DeleteIssueCommand = new DelegateCommand<Issue>(ExecuteDeleteIssue, issue => true);
             OpenIssueCommand = new DelegateCommand<Issue>(ExecuteIssueNavigate, issue => true);
+            GroupChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(GroupChangedHandler, e => true);
+            ClearGroupingCommand = new DelegateCommand(ClearGroupingExecute, () => true);
+        }
+
+        private void ClearGroupingExecute()
+        {
+            Issues.GroupDescriptions.Clear();
+        }
+
+        private void GroupChangedHandler(SelectionChangedEventArgs e)
+        {
+            var field = (GroupItem) e.AddedItems[0];
+            Issues.GroupDescriptions.Clear();
+            var pgd = new PropertyGroupDescription(field.Value);
+            Issues.GroupDescriptions.Add(pgd);
         }
 
         public void ExecuteIssueNavigate(Issue issue)
@@ -83,23 +111,6 @@ namespace TeamManager.Modules.Issues.ViewModels
 
         public void ExecuteCreateIssue()
         {
-            /*var viewModel = _container.Resolve<EditIssueFormViewModel>();
-            viewModel.CurrentIssue = new Issue {ProjectId = CurrentProjectId, Subject = "New issue", PriorityId = 4, Description = "Nothing" };
-            viewModel.IsNew = true;
-            var window = _container.Resolve<IModalWindow>("editissueform");
-            _modalDialogService.ShowDialog(window, viewModel,
-                formViewModel =>
-                    {
-                        if (!window.DialogResult.HasValue ||
-                                                !window.DialogResult.Value) return;
-
-                        var newIssue = formViewModel.CurrentIssue;
-                        _context.Issues.Add(newIssue);
-                        Issues.Add(newIssue);
-                        _context.SubmitChanges();
-                        RaisePropertyChanged("Issues");
-                    }
-                );*/
             var regionManager = _container.Resolve<RegionManager>();
             var query = new UriQuery { { "issue", "0" } };
             regionManager.RequestNavigate("MainRegion", new Uri("IssueView" + query, UriKind.Relative));
@@ -144,5 +155,4 @@ namespace TeamManager.Modules.Issues.ViewModels
                               }, null);
         }
     }
-
 }

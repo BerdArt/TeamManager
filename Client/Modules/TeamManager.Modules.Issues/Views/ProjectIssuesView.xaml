@@ -7,8 +7,7 @@
 	xmlns:dg="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
 	xmlns:rb="clr-namespace:TeamManager.Infrastructure.RelativeBinding;assembly=TeamManager.Infrastructure"
 	xmlns:clb="clr-namespace:TeamManager.Infrastructure;assembly=TeamManager.Infrastructure" 
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-	mc:Ignorable="d"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:sc="clr-namespace:TeamManager.Infrastructure.Commands;assembly=TeamManager.Infrastructure" mc:Ignorable="d"
 	d:DesignHeight="300" d:DesignWidth="400">
 	
 	<UserControl.Resources>
@@ -16,11 +15,29 @@
 			<clb:UserRolesProxy d:IsDataSource="True" x:Key="ms" />
 			<src:TextFormatConverter x:Key="TextFormatter" />
 			<src:DateTimeConverter x:Key="DateTimeConverter" />
+			
+			<Style x:Key="FilterStackPanelStyle" TargetType="StackPanel">
+				<Setter Property="Orientation" Value="Horizontal" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="Margin" Value="0,0,0,10" />
+			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	
 	<StackPanel VerticalAlignment="Stretch">
 		<TextBlock Style="{StaticResource HeaderTextStyle}" Text="{Binding HeaderTitle}" />
+		<StackPanel Style="{StaticResource FilterStackPanelStyle}">
+			<TextBlock Text="Group rows by:" VerticalAlignment="Center" />
+			<ComboBox ItemsSource="{Binding GroupCriteria}" MinWidth="100" 
+					  DisplayMemberPath="Display" Margin="10,0">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="SelectionChanged">
+						<sc:EventToCommand Command="{Binding GroupChangedCommand}" PassEventArgsToCommand="True" />
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</ComboBox>
+			<Button Content="Clear" Command="{Binding ClearGroupingCommand}" />
+		</StackPanel>
 		<dg:DataGrid x:Name="issuesList" CanUserSortColumns="True" CanUserResizeColumns="True"
 				   IsReadOnly="True" AutoGenerateColumns="False" 
 				   ItemsSource="{Binding Issues}" 
@@ -74,6 +91,16 @@
 					</dg:DataGridTemplateColumn.CellTemplate>
 				</dg:DataGridTemplateColumn>
 			</dg:DataGrid.Columns>
+			<!--<dg:DataGrid.RowGroupHeaderStyles>
+				<Style TargetType="dg:DataGridRowGroupHeader">
+					
+				</Style>
+				<dg:DataGridRowGroupHeader.Template>
+					<ControlTemplate>
+						<TextBlock Text="{Binding Name}" />
+					</ControlTemplate>
+				</dg:DataGridRowGroupHeader.Template>
+			</dg:DataGridRowGroupHeader>-->
 		</dg:DataGrid>
 		<Button Content="Create new issue" HorizontalAlignment="Center" Margin="15"
 				Command="{Binding CreateIssueCommand}" >

@@ -256,7 +256,7 @@ namespace TeamManager.Web.Models
 
             public EntityCollection<Issue> Issues { get; set; }
 
-            [Display(Name = "Tracker name")]
+            [Display(Name = "Tracker")]
             [Required]
             [StringLength(50)]
             public string Name { get; set; }
@@ -294,7 +294,7 @@ namespace TeamManager.Web.Models
             [Key]
             public int Id { get; set; }
 
-            [Display(Name = "Dictionary value")]
+            [Display(Name = "Priority")]
             [Required]
             [StringLength(50)]
             public string Name { get; set; }
@@ -424,6 +424,7 @@ namespace TeamManager.Web.Models
 
             public Guid UserId { get; set; }
 
+            [Display(Name = "User")]
             public string UserName { get; set; }
         }
     }
