@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
+using Microsoft.Practices.Unity;
 using TeamManager.Infrastructure.Messages;
 using TeamManager.Web.Models;
 using TeamManager.Web.Services;
@@ -12,17 +13,18 @@ namespace TeamManager.Modules.Projects.ViewModels
     public class ProjectListSidebarViewModel : NotificationObject
     {
         private Project _selectedProject;
-        private readonly IRegionManager _regionManager;
+        private IRegionManager _regionManager;
 
-        public ProjectListSidebarViewModel(TeamManagerDomainContext context, IRegionManager regionManager)
+        public ProjectListSidebarViewModel(IUnityContainer container)
         {
-            _regionManager = regionManager;
-            
+            _regionManager = container.Resolve<IRegionManager>();
+            var context = container.Resolve<TeamManagerDomainContext>("TM_DB");
+
             context.Load(context.GetProjectsQuery(),
                                  loadOperation =>
                                      {
-                                         Projects = new List<Project>(context.Projects);
-                                         RaisePropertyChanged("Projects");
+                                         Projects = new ObservableCollection<Project>(context.Projects);
+                                         RaisePropertyChanged(() => Projects);
                                      }, null);
 
             HeaderTitle = "Project List";
@@ -46,8 +48,9 @@ namespace TeamManager.Modules.Projects.ViewModels
                                  });
         }
 
-        public List<Project> Projects { get; set; }
+        public ObservableCollection<Project> Projects { get; set; }
         public string HeaderTitle { get; set; }
+
         public Project SelectedProject
         {
             get { return _selectedProject; }

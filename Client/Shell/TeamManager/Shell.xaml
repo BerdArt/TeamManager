@@ -7,8 +7,7 @@
   xmlns:dataControls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" 
   xmlns:controls="clr-namespace:TeamManager.Controls" 
   xmlns:login="clr-namespace:TeamManager.LoginUI"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-  mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480">
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:region="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480">
 
   <Grid>
 
@@ -28,23 +27,33 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-            </Grid.RowDefinitions>         
-   
+            </Grid.RowDefinitions>
 
-      
 
-        <StackPanel x:Name="LinksStackPanel" Style="{StaticResource LinksStackPanelStyle}">
-            <HyperlinkButton x:Name="Link1" Style="{StaticResource LinkStyle}" 
-                                NavigateUri="/Home" TargetName="ContentFrame" Content="{Binding Path=Strings.HomePageTitle, Source={StaticResource ApplicationResources}}"/>
-            <Rectangle x:Name="Divider1" Style="{StaticResource DividerStyle}"/>
-            <HyperlinkButton x:Name="Link2" Style="{StaticResource LinkStyle}" 
-                                NavigateUri="/Projects" TargetName="ContentFrame" Content="{Binding Path=Strings.ProjectsPageTitle, Source={StaticResource ApplicationResources}}"/>
-            <Rectangle x:Name="Divider2" Style="{StaticResource DividerStyle}"/>
-            <HyperlinkButton x:Name="Link3" Style="{StaticResource LinkStyle}" 
-                                NavigateUri="/About" TargetName="ContentFrame" Content="{Binding Path=Strings.AboutPageTitle, Source={StaticResource ApplicationResources}}"/>
-        </StackPanel>
 
-    <Border x:Name="BrandingBorder" Style="{StaticResource NavBrandingBorderStyle}" Grid.Row="1">
+            <Grid Style="{StaticResource HeaderGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel x:Name="LinksStackPanel" Style="{StaticResource LinksStackPanelStyle}">
+                    <HyperlinkButton x:Name="Link1" Style="{StaticResource LinkStyle}" 
+                                    NavigateUri="/Home" TargetName="ContentFrame" Content="{Binding Path=Strings.HomePageTitle, Source={StaticResource ApplicationResources}}"/>
+                    <Rectangle x:Name="Divider1" Style="{StaticResource DividerStyle}"/>
+                    <HyperlinkButton x:Name="Link2" Style="{StaticResource LinkStyle}" 
+                                    NavigateUri="/Projects" TargetName="ContentFrame" Content="{Binding Path=Strings.ProjectsPageTitle, Source={StaticResource ApplicationResources}}"/>
+                    <Rectangle x:Name="Divider2" Style="{StaticResource DividerStyle}"/>
+                    <HyperlinkButton x:Name="Link3" Style="{StaticResource LinkStyle}" 
+                                    NavigateUri="/About" TargetName="ContentFrame" Content="{Binding Path=Strings.AboutPageTitle, Source={StaticResource ApplicationResources}}"/>
+
+                </StackPanel>
+                <ContentControl Style="{StaticResource HeaderRegionStyle}" Grid.Column="2"
+                            region:RegionManager.RegionName="HeaderRegion" />
+            </Grid>
+
+            <Border x:Name="BrandingBorder" Style="{StaticResource NavBrandingBorderStyle}" Grid.Row="1">
         <StackPanel x:Name="BrandingStackPanel" Style="{StaticResource NavBrandingStackPanelStyle}">
                 <TextBlock x:Name="ApplicationNameTextBlock" Style="{StaticResource ApplicationNameStyle}" 
             Text="{Binding Strings.ApplicationName, Source={StaticResource ApplicationResources}}"/>
@@ -54,10 +63,10 @@
 
     <Border x:Name="ContentBorder" Style="{StaticResource NavContentBorderStyle}" Grid.Row="2">
         <navigation:Frame x:Name="ContentFrame" Style="{StaticResource ContentFrameStyle}" 
-                    Source="/Projects" Navigated="ContentFrame_Navigated" NavigationFailed="ContentFrame_NavigationFailed">
+                    Source="/Home" Navigated="ContentFrame_Navigated" NavigationFailed="ContentFrame_NavigationFailed">
             <navigation:Frame.UriMapper>
                 <uriMapper:UriMapper>
-                    <uriMapper:UriMapping Uri="" MappedUri="/Views/Projects.xaml"/>
+                    <uriMapper:UriMapping Uri="" MappedUri="/Views/Home.xaml"/>
                     <uriMapper:UriMapping Uri="/{pageName}" MappedUri="/Views/{pageName}.xaml"/>
                 </uriMapper:UriMapper>
             </navigation:Frame.UriMapper>

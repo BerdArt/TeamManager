@@ -68,7 +68,7 @@
     <Content Include="ClientBin\TeamManager.Modules.Issues.xap" />
     <Content Include="ClientBin\TeamManager.Modules.Projects.xap" />
     <Content Include="ClientBin\TeamManager.xap" />
-    <Content Include="TeamManagerTestPage.aspx" />
+    <Content Include="TeamManager.aspx" />
     <Content Include="TeamManagerTestPage.html" />
     <Content Include="Silverlight.js" />
     <Content Include="Web.config" />

@@ -44,7 +44,7 @@ namespace TeamManager.Modules.Projects
 
         public override void RegisterRegions()
         {
-//            RegionManager.RegisterViewWithRegion("HeaderRegion", typeof(ProjectListSidebarView));
+            RegionManager.RegisterViewWithRegion("HeaderRegion", typeof(ProjectListSidebarView));
             RegionManager.RegisterViewWithRegionInIndex("MainRegion", typeof (ProjectListView), 1 );
 //            RegionManager.RegisterViewWithRegion("MainRegion", typeof (ProjectListView));
         }
@@ -52,8 +52,8 @@ namespace TeamManager.Modules.Projects
         protected override void RegisterTypes()
         {
             Container.RegisterType<TeamManagerDomainContext>(new InjectionConstructor());
-//            Container.RegisterType<ProjectListSidebarViewModel>();
-//            Container.RegisterType<ProjectListSidebarView>();
+            Container.RegisterType<ProjectListSidebarViewModel>();
+            Container.RegisterType<ProjectListSidebarView>();
             Container.RegisterType<ProjectListViewModel>();
             Container.RegisterType<ProjectListView>();
             Container.RegisterType<EditProjectViewModel>();

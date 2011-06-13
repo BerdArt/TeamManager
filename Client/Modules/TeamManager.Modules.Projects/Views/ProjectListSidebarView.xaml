@@ -4,8 +4,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:tlk="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" 
-			 mc:Ignorable="d" 
-			 d:DesignHeight="300" d:DesignWidth="400">
+			 mc:Ignorable="d" >
 
 	<!--<tlk:Expander Header="{Binding HeaderTitle}" Margin="0,0,0,5" IsExpanded="True">
 		<ListBox ItemsSource="{Binding Projects}">
@@ -21,7 +20,7 @@
 	</tlk:Expander>-->
 	
 	<ComboBox ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject, Mode=TwoWay}" 
-			  DisplayMemberPath="Title">
+			  DisplayMemberPath="Title" MinWidth="150">
 		
 		<!--<ComboBox.ItemTemplate>
 			<DataTemplate>

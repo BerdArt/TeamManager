@@ -225,6 +225,18 @@
 
     <!-- 
     ***************************************************************************
+   Header Grid Style
+    ***************************************************************************
+    -->
+    <Style x:Key="HeaderGridStyle" TargetType="Grid">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Height" Value="47" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+    </Style>
+    
+    <!-- 
+    ***************************************************************************
    Links StackPanel Style
     ***************************************************************************
     -->
@@ -391,7 +403,16 @@
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
     
-    
+    <!--
+    ***************************************************************************
+    Header Region Style
+    ***************************************************************************
+    -->
+    <Style x:Key="HeaderRegionStyle" TargetType="ContentControl">
+        <Setter Property="Height" Value="47" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Padding" Value="24,4" />
+    </Style>
     
 
     <!--
