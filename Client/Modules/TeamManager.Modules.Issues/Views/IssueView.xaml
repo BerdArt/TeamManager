@@ -36,28 +36,28 @@
 							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<dataForm:DataField Label="Tracker">
+                        <dataForm:DataField Label="Tracker" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<TextBlock Text="{Binding Tracker.Name, Mode=OneWay}" />
 						</dataForm:DataField>
-						<dataForm:DataField Grid.Row="1" Label="Priority">
+                        <dataForm:DataField Grid.Row="1" Label="Priority" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<TextBlock Text="{Binding Priority.Name, Mode=OneWay}" />
 						</dataForm:DataField>
-						<dataForm:DataField Grid.Row="2" Label="Status">
+                        <dataForm:DataField Grid.Row="2" Label="Status" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<TextBlock Text="{Binding IssueStatus.Name, Mode=OneWay}" />
 						</dataForm:DataField>
-						<dataForm:DataField Grid.Row="3" Label="Assigned to">
+                        <dataForm:DataField Grid.Row="3" Label="Assigned to" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<TextBlock Text="{Binding AssignedUser.UserName, Mode=OneWay}" />
 						</dataForm:DataField>
-						<dataForm:DataField Grid.Column="2">
+                        <dataForm:DataField Grid.Column="2" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<TextBlock Text="{Binding StartDate, Mode=OneWay, Converter={StaticResource DateTime}}" />
 						</dataForm:DataField>
-						<dataForm:DataField Grid.Column="2" Grid.Row="1">
+                        <dataForm:DataField Grid.Column="2" Grid.Row="1" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<TextBlock Text="{Binding DueDate, Mode=OneWay, Converter={StaticResource DateTime}}" />
 						</dataForm:DataField>
-						<dataForm:DataField Grid.Column="2" Grid.Row="2">
+                        <dataForm:DataField Grid.Column="2" Grid.Row="2" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<TextBlock Text="{Binding EstimatedHours, Mode=OneWay, Converter={StaticResource TextFormat}, ConverterParameter='{0} hrs'}" />
 						</dataForm:DataField>
-						<dataForm:DataField Grid.Column="2" Grid.Row="3" Label="Done">
+                        <dataForm:DataField Grid.Column="2" Grid.Row="3" Label="Done" LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 							<StackPanel Orientation="Horizontal">
 								<Border BorderBrush="#FF343537" Width="100" BorderThickness="1" CornerRadius="2">
 									<Rectangle Fill="#8ddbff" Width="{Binding DoneRatio, Mode=OneWay}" HorizontalAlignment="Left" RadiusX="2" RadiusY="2" />
@@ -67,7 +67,7 @@
 							</StackPanel>
 						</dataForm:DataField>
 						<StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2">
-							<dataForm:DataField Label="Spended time">
+                            <dataForm:DataField Label="Spended time"  LabelStyle="{StaticResource DataFormLabelViewStateStyle}">
 								<TextBlock Text="{Binding SpendedTime, Mode=OneWay, Converter={StaticResource TextFormat}, ConverterParameter='{0} hrs'}" />
 							</dataForm:DataField>
 							<HyperlinkButton Content="+" VerticalAlignment="Center">
@@ -86,7 +86,7 @@
 						</StackPanel>
 					</Grid>
 					<dataForm:DataField LabelVisibility="Collapsed">
-						<TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Description}" Style="{StaticResource DescriptionFieldViewStyle}" />
 					</dataForm:DataField>
 				</StackPanel>
 			</DataTemplate>

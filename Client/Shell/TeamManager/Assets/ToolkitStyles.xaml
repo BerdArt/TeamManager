@@ -2296,4 +2296,18 @@
     	</Setter>
     </Style>
 
+
+    <!-- DataForm style improvements -->
+    <Style x:Key="DataFormLabelViewStateStyle" TargetType="sdk:Label">
+        <Setter Property="Foreground" Value="{StaticResource NormalFontBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style x:Key="DescriptionFieldViewStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource NormalFontBrush}" />
+        <Setter Property="FontSize" Value="{StaticResource ContentFontSize}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
 </ResourceDictionary>
