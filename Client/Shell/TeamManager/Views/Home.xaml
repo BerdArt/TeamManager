@@ -14,7 +14,22 @@
 
         <TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
                            Text="{Binding Path=Strings.HomePageTitle, Source={StaticResource ApplicationResources}}"/>
-
+        <TextBlock FontSize="13">
+            <Run FontWeight="Bold">TeamManager</Run> is a flexible project management software. It have following possibilities:
+            <LineBreak />
+        	<LineBreak />
+        	1. Administrator can create, update and delete project. 
+        	<LineBreak />
+               Each project can be public (visible for everyone) and non-public (only members have access to them).
+        	<LineBreak />
+        	<LineBreak />
+            2. Manager can create issues in the project. 
+            <LineBreak />
+               Each issue has tracker, priority, status, done ratio, estimated time and start/end date.
+            <LineBreak />
+            <LineBreak />
+            3. Developer can log spended time and change status of the issue.
+        </TextBlock>
       </StackPanel>
 
     </ScrollViewer>

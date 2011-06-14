@@ -94,8 +94,7 @@ namespace TeamManager.Web.Services
         public void InsertIssue(Issue issue)
         {
             issue.CreatedOn = DateTime.Now;
-            issue.AuthorId = Guid.Parse("449e73eb-2911-4302-abae-44c0b91d8d0c");
-            issue.AssignedTo = Guid.Parse("449e73eb-2911-4302-abae-44c0b91d8d0c");
+            issue.AuthorId = Guid.Parse("39FEE52A-E0E6-427A-9888-79215CBB0218");
             if ((issue.EntityState != EntityState.Detached))
             {
                 this.ObjectContext.ObjectStateManager.ChangeObjectState(issue, EntityState.Added);
@@ -178,8 +177,7 @@ namespace TeamManager.Web.Services
         public void InsertProject(Project project)
         {
             project.CreatedOn = DateTime.Now;
-            project.CreatedBy = Guid.Parse("449e73eb-2911-4302-abae-44c0b91d8d0c");
-            project.Status = 1;
+            project.CreatedBy = Guid.Parse("234A5BEC-0119-4AD1-90E1-A3022718F4BB");
             if ((project.EntityState != EntityState.Detached))
             {
                 this.ObjectContext.ObjectStateManager.ChangeObjectState(project, EntityState.Added);
@@ -193,6 +191,7 @@ namespace TeamManager.Web.Services
         [RequiresRole("Administrator", "Only Administrator can update new project")]
         public void UpdateProject(Project currentProject)
         {
+            currentProject.UpdatedOn = DateTime.Now;
             this.ObjectContext.Projects.AttachAsModified(currentProject, this.ChangeSet.GetOriginal(currentProject));
         }
 
@@ -219,7 +218,7 @@ namespace TeamManager.Web.Services
         public void InsertTimeEntry(TimeEntry timeEntry)
         {
             timeEntry.CreatedOn = DateTime.Now;
-            timeEntry.UserId = Guid.Parse("449e73eb-2911-4302-abae-44c0b91d8d0c");
+            timeEntry.UserId = Guid.Parse("6FC2ED90-8D70-4EDF-BF40-6FD12325E86B");
             if ((timeEntry.EntityState != EntityState.Detached))
                 ObjectContext.ObjectStateManager.ChangeObjectState(timeEntry, EntityState.Added);
             else
